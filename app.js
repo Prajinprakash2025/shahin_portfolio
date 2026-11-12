@@ -1,4 +1,41 @@
-// Initialize Everything on DOM Load
+// ========================================================
+// SHAHINSHA KABEER - CINEMATIC PORTFOLIO JAVASCRIPT
+// Features React Bits effects:
+// 1. Interactive Particle Text Canvas (Hero)
+// 2. Target Reticle Cursor with Magnetic Snapping (Works)
+// 3. Spotlight Radial Glow Cards
+// 4. Glare 3D Tilt Cards
+// 5. Expandable Photography Grid & Full Archive Modal (19 Stills)
+// ========================================================
+
+// 19 Curated Photography Works from Shahin's Shoots (Including new folder additions)
+const allPhotos = [
+  { id: 1, src: 'img/photography/photo-10.jpg', title: 'Ghats Forest Canopy', subtitle: 'Idukki Highlands • Morning Mist', category: 'landscape', camera: 'f/1.8 • 1/200s' },
+  { id: 2, src: 'img/photography/photo-03.jpg', title: 'Munnar Tea Canopy', subtitle: 'Western Ghats • Moody Cloud Cover', category: 'landscape', camera: 'Moody Raw' },
+  { id: 3, src: 'img/photography/photo-06.jpg', title: 'Kochi Metro Viaduct', subtitle: 'Pathadipalam • Night Ride', category: 'street', camera: 'Night ISO 1600' },
+  { id: 4, src: 'img/photography/photo-01.jpg', title: 'The White Umbrella', subtitle: 'Kerala Backcountry • Cinematic Framing', category: 'landscape', camera: 'Story Cut' },
+  { id: 5, src: 'img/photography/photo-02.jpg', title: 'Tea Country Twilight', subtitle: 'Munnar Slopes • Golden Hour Glow', category: 'landscape', camera: 'Dusk Tint' },
+  { id: 6, src: 'img/photography/photo-08.jpg', title: 'Platform Geometry', subtitle: 'Transit POV • Minimalist Framing', category: 'street', camera: 'Lines & Texture' },
+  { id: 7, src: 'img/photography/photo-04.jpg', title: 'Rain on Glass', subtitle: 'Monsoon Depth of Field • Macro Bokeh', category: 'mood', camera: 'Macro f/1.8' },
+  { id: 8, src: 'img/photography/photo-05.jpg', title: 'Cloud Inversion', subtitle: 'Untold Stories • Valley Horizon', category: 'landscape', camera: 'Fine Art' },
+  // Extra photos (View More / Full Gallery):
+  { id: 9, src: 'img/photography/photo-07.jpg', title: 'Monsoon Horizons', subtitle: 'Moody Overcast Mountain Ridge • Wide Angle', category: 'mood', camera: 'Wide 16mm' },
+  { id: 10, src: 'img/photography/photo-11.jpg', title: 'Café Ambient Glow', subtitle: 'Cozy Street Corner • Warm Ambient Lighting', category: 'street', camera: 'Warm Bokeh' },
+  { id: 11, src: 'img/photography/photo-12.jpg', title: 'Lotus Pond Sanctuary', subtitle: 'Still Water & Highland Botanicals', category: 'landscape', camera: 'Prime 85mm' },
+  { id: 12, src: 'img/photography/photo-13.jpg', title: 'Midnight Beacon', subtitle: 'Highland Night Sky & Distant Beacon', category: 'mood', camera: 'Night Astro' },
+  { id: 13, src: 'img/photography/photo-14.jpg', title: 'Colonial Architecture', subtitle: 'Architectural Stills • Natural Sunlight', category: 'street', camera: 'Architecture' },
+  { id: 14, src: 'img/photography/photo-15.jpg', title: 'Vintage Red Coupe', subtitle: 'Urban Automotive Stills • Red Accent', category: 'street', camera: 'Street 50mm' },
+  { id: 15, src: 'img/photography/photo-16.jpg', title: 'Overhead City Rush', subtitle: 'Long Exposure Night Light Trails • Cityscape', category: 'street', camera: 'Long Exposure' },
+  { id: 16, src: 'img/photography/photo-17.jpg', title: 'Monochrome Rhythm', subtitle: 'Geometric Lines & Concrete Rhythm', category: 'mood', camera: 'Fine Art B&W' },
+  { id: 17, src: 'img/photography/photo-18.jpg', title: 'Sunset Cloudscape', subtitle: 'Cloud Layering over Mountain Horizons', category: 'landscape', camera: 'Sunset 24mm' },
+  { id: 18, src: 'img/photography/photo-19.jpg', title: 'Morning Foliage Dew', subtitle: 'Botanical Texture & Water Droplets', category: 'mood', camera: 'Macro 100mm' },
+  { id: 19, src: 'img/photography/photo-20.jpg', title: 'Golden Canyon Pass', subtitle: 'Highland Road Curves • Munnar Pass', category: 'landscape', camera: 'Landscape 35mm' }
+];
+
+let currentPhotoIndex = 0;
+let isMorePhotosExpanded = false;
+
+// Initialize on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) {
     lucide.createIcons();
@@ -234,9 +271,8 @@ function setupGlareCards() {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      // 3D rotation limits
-      const rotateX = (0.5 - y) * 18;
-      const rotateY = (x - 0.5) * 18;
+      const rotateX = (0.5 - y) * 16;
+      const rotateY = (x - 0.5) * 16;
 
       inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.025, 1.025, 1.025)`;
       card.style.setProperty('--glare-x', `${x * 100}%`);
@@ -311,7 +347,7 @@ function setupTargetCursor() {
   targets.forEach(target => {
     target.addEventListener('mouseenter', () => {
       activeTarget = target;
-      const labelText = target.dataset.targetLabel || 'VIEW [●]';
+      const labelText = target.dataset.targetLabel || 'VIEW FILM [16:9]';
       if (cursorLabel) {
         cursorLabel.textContent = labelText;
         cursorLabel.classList.add('active');
@@ -455,11 +491,162 @@ function filterWorks(category) {
 }
 
 // ==========================================
-// 9. FILTER PHOTOGRAPHY GALLERY
+// 9. IN-GRID "VIEW MORE" EXPANSION TOGGLE
+// ==========================================
+function toggleMorePhotos() {
+  isMorePhotosExpanded = !isMorePhotosExpanded;
+  const extraPhotos = document.querySelectorAll('.extra-photo');
+  const btnText = document.getElementById('toggleMoreText');
+  const icon = document.getElementById('toggleMoreIcon');
+
+  extraPhotos.forEach(card => {
+    if (isMorePhotosExpanded) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  if (btnText) {
+    btnText.textContent = isMorePhotosExpanded ? 'Show Less Stills ↑' : 'View More Stills (+11 Captures)';
+  }
+
+  if (icon) {
+    if (isMorePhotosExpanded) {
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  if (!isMorePhotosExpanded) {
+    const photoSection = document.getElementById('photography');
+    if (photoSection) {
+      photoSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  setupGlareCards();
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+// ==========================================
+// 10. FILTER PHOTOGRAPHY GALLERY
 // ==========================================
 function filterPhotos(category) {
   const buttons = document.querySelectorAll('.photo-filter-btn');
   const items = document.querySelectorAll('.photo-card-item');
+  const moreBtnContainer = document.getElementById('toggleMorePhotosBtn')?.parentElement;
+
+  buttons.forEach(btn => {
+    if (btn.dataset.filter === category) {
+      btn.classList.add('bg-brand-cyan', 'text-black');
+      btn.classList.remove('text-gray-400');
+    } else {
+      btn.classList.remove('bg-brand-cyan', 'text-black');
+      btn.classList.add('text-gray-400');
+    }
+  });
+
+  if (category === 'all') {
+    // Restore collapsed or expanded state
+    items.forEach(item => {
+      if (item.classList.contains('extra-photo')) {
+        if (isMorePhotosExpanded) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      } else {
+        item.style.display = 'block';
+      }
+    });
+    if (moreBtnContainer) moreBtnContainer.style.display = 'flex';
+  } else {
+    // When a specific category is chosen, display ALL matching items (even if extra)
+    items.forEach(item => {
+      const itemCat = item.dataset.category;
+      if (itemCat === category) {
+        item.classList.remove('hidden');
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    // Hide View More button when filtering by specific category
+    if (moreBtnContainer) moreBtnContainer.style.display = 'none';
+  }
+
+  setupGlareCards();
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+// ==========================================
+// 11. DEDICATED FULL GALLERY ARCHIVE MODAL
+// ==========================================
+let isArchiveRendered = false;
+
+function openFullGalleryModal() {
+  const modal = document.getElementById('fullGalleryModal');
+  const grid = document.getElementById('archivePhotosGrid');
+  if (!modal) return;
+
+  if (!isArchiveRendered && grid) {
+    grid.innerHTML = allPhotos.map((photo, idx) => `
+      <div class="archive-photo-card glare-card rounded-2xl overflow-hidden glass-panel border border-white/10 group cursor-pointer" data-category="${photo.category}" onclick="openPhotoModalByIndex(${idx})">
+        <div class="glare-card-inner relative w-full aspect-[3/4] bg-black/60 overflow-hidden">
+          <img 
+            src="${photo.src}" 
+            alt="${photo.title}" 
+            loading="lazy" 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="glare-sheen"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+          
+          <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
+            ${photo.camera}
+          </div>
+
+          <div class="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none">
+            <span class="text-[9px] font-mono text-brand-cyan uppercase tracking-wider">${photo.category}</span>
+            <h5 class="text-xs font-bold font-syne text-white truncate leading-tight">${photo.title}</h5>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    isArchiveRendered = true;
+    setupGlareCards();
+  }
+
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('opacity-100');
+  document.body.style.overflow = 'hidden';
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+function closeFullGalleryModal() {
+  const modal = document.getElementById('fullGalleryModal');
+  if (!modal) return;
+
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  modal.classList.remove('opacity-100');
+  document.body.style.overflow = 'auto';
+}
+
+function filterArchivePhotos(category) {
+  const buttons = document.querySelectorAll('.archive-filter-btn');
+  const items = document.querySelectorAll('.archive-photo-card');
+  const countText = document.getElementById('archiveCountText');
+  let visibleCount = 0;
 
   buttons.forEach(btn => {
     if (btn.dataset.filter === category) {
@@ -475,38 +662,74 @@ function filterPhotos(category) {
     const itemCat = item.dataset.category;
     if (category === 'all' || itemCat === category) {
       item.style.display = 'block';
+      visibleCount++;
     } else {
       item.style.display = 'none';
     }
   });
 
-  if (window.lucide) {
-    lucide.createIcons();
+  if (countText) {
+    countText.textContent = `Displaying ${visibleCount} of ${allPhotos.length} Stills`;
   }
 }
 
 // ==========================================
-// 10. FULLSCREEN PHOTO LIGHTBOX MODAL
+// 12. FULLSCREEN PHOTO LIGHTBOX MODAL WITH PREV/NEXT
 // ==========================================
 const photoModal = document.getElementById('photoModal');
 const modalPhotoImage = document.getElementById('modalPhotoImage');
 const modalPhotoTitle = document.getElementById('modalPhotoTitle');
 const modalPhotoSubtitle = document.getElementById('modalPhotoSubtitle');
 const modalPhotoWhatsAppLink = document.getElementById('modalPhotoWhatsAppLink');
+const modalPhotoCounter = document.getElementById('modalPhotoCounter');
 
 function openPhotoModal(imageSrc, title, subtitle) {
+  const idx = allPhotos.findIndex(p => p.src === imageSrc);
+  if (idx !== -1) {
+    currentPhotoIndex = idx;
+  }
+  updatePhotoModal();
+}
+
+function openPhotoModalByIndex(index) {
+  if (index >= 0 && index < allPhotos.length) {
+    currentPhotoIndex = index;
+    updatePhotoModal();
+  }
+}
+
+function updatePhotoModal() {
   if (!photoModal || !modalPhotoImage) return;
 
-  modalPhotoImage.src = imageSrc;
-  modalPhotoTitle.textContent = title || 'Shahin Photography';
-  modalPhotoSubtitle.textContent = (subtitle || 'Highland Capture') + ' • Fine-Art Still';
+  const photo = allPhotos[currentPhotoIndex];
+  if (!photo) return;
 
-  const encodedText = encodeURIComponent(`Hi Shahinsha! I saw your photograph "${title}" on your portfolio and I'm interested in booking a photography / portrait shoot.`);
-  modalPhotoWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
+  modalPhotoImage.src = photo.src;
+  modalPhotoTitle.textContent = photo.title || 'Shahin Photography';
+  modalPhotoSubtitle.textContent = `${photo.subtitle || 'Highland Capture'} • ${photo.camera || 'Fine-Art Still'}`;
+
+  if (modalPhotoCounter) {
+    modalPhotoCounter.textContent = `Photo ${currentPhotoIndex + 1} of ${allPhotos.length}`;
+  }
+
+  const encodedText = encodeURIComponent(`Hi Shahinsha! I saw your photograph "${photo.title}" on your portfolio and I'm interested in booking a photography / portrait shoot.`);
+  if (modalPhotoWhatsAppLink) {
+    modalPhotoWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
+  }
 
   photoModal.classList.remove('opacity-0', 'pointer-events-none');
   photoModal.classList.add('opacity-100');
   document.body.style.overflow = 'hidden';
+}
+
+function nextPhoto() {
+  currentPhotoIndex = (currentPhotoIndex + 1) % allPhotos.length;
+  updatePhotoModal();
+}
+
+function prevPhoto() {
+  currentPhotoIndex = (currentPhotoIndex - 1 + allPhotos.length) % allPhotos.length;
+  updatePhotoModal();
 }
 
 function closePhotoModal() {
@@ -519,7 +742,7 @@ function closePhotoModal() {
 }
 
 // ==========================================
-// 11. VIDEO THEATER MODAL
+// 13. VIDEO THEATER MODAL
 // ==========================================
 const modal = document.getElementById('videoModal');
 const modalPlayer = document.getElementById('modalVideoPlayer');
@@ -535,7 +758,9 @@ function openVideoModal(videoSrc, title, subtitle) {
   modalSubtitle.textContent = (subtitle || 'Director Cut') + ' • High Definition';
   
   const encodedText = encodeURIComponent(`Hi Shahinsha! I saw your project "${title}" on your portfolio and I would love to discuss a video project.`);
-  modalWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
+  if (modalWhatsAppLink) {
+    modalWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
+  }
 
   modal.classList.remove('opacity-0', 'pointer-events-none');
   modal.classList.add('opacity-100');
@@ -554,6 +779,7 @@ function closeVideoModal() {
   document.body.style.overflow = 'auto';
 }
 
+// Global Keyboard Navigation
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     if (modal && !modal.classList.contains('opacity-0')) {
@@ -561,6 +787,19 @@ window.addEventListener('keydown', (e) => {
     }
     if (photoModal && !photoModal.classList.contains('opacity-0')) {
       closePhotoModal();
+    }
+    const archiveModal = document.getElementById('fullGalleryModal');
+    if (archiveModal && !archiveModal.classList.contains('opacity-0')) {
+      closeFullGalleryModal();
+    }
+  }
+
+  // Arrow keys for lightbox modal
+  if (photoModal && !photoModal.classList.contains('opacity-0')) {
+    if (e.key === 'ArrowRight') {
+      nextPhoto();
+    } else if (e.key === 'ArrowLeft') {
+      prevPhoto();
     }
   }
 });
@@ -577,8 +816,15 @@ if (photoModal) {
   });
 }
 
+const fullGalleryModalEl = document.getElementById('fullGalleryModal');
+if (fullGalleryModalEl) {
+  fullGalleryModalEl.addEventListener('click', (e) => {
+    if (e.target === fullGalleryModalEl) closeFullGalleryModal();
+  });
+}
+
 // ==========================================
-// 12. CONTACT FORM VIA WHATSAPP
+// 14. CONTACT FORM VIA WHATSAPP
 // ==========================================
 function handleFormSubmit(event) {
   event.preventDefault();

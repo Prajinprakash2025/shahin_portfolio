@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setupParticleText();
   setupSpotlightCards();
+  setupGlareCards();
   setupTargetCursor();
   setupVideoHoverPreviews();
   setupNavbarScroll();
@@ -28,7 +29,6 @@ function setupParticleText() {
   let particles = [];
   let animationFrameId = null;
 
-  // Mouse / Touch interaction state
   const mouse = {
     x: -1000,
     y: -1000,
@@ -36,13 +36,12 @@ function setupParticleText() {
     isInteracting: false
   };
 
-  // Color palette for golden/amber cinematic text
   const colors = [
-    '#F59E0B', // Golden Amber
-    '#FBBF24', // Bright Gold
-    '#FCD34D', // Light Gold
-    '#FEF3C7', // Pale Gold Sparkle
-    '#06B6D4'  // Electric Cyan Accent
+    '#F59E0B',
+    '#FBBF24',
+    '#FCD34D',
+    '#FEF3C7',
+    '#06B6D4'
   ];
 
   class Particle {
@@ -221,7 +220,37 @@ function setupParticleText() {
 }
 
 // ==========================================
-// 2. REACT BITS "TARGET CURSOR" (WORKS SECTION RETICLE)
+// 2. REACT BITS "GLARE HOVER" 3D TILT EFFECT
+// ==========================================
+function setupGlareCards() {
+  const cards = document.querySelectorAll('.glare-card');
+
+  cards.forEach(card => {
+    const inner = card.querySelector('.glare-card-inner');
+    if (!inner) return;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      // 3D rotation limits
+      const rotateX = (0.5 - y) * 18;
+      const rotateY = (x - 0.5) * 18;
+
+      inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.025, 1.025, 1.025)`;
+      card.style.setProperty('--glare-x', `${x * 100}%`);
+      card.style.setProperty('--glare-y', `${y * 100}%`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+      inner.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  });
+}
+
+// ==========================================
+// 3. REACT BITS "TARGET CURSOR" (WORKS SECTION)
 // ==========================================
 function setupTargetCursor() {
   const worksSection = document.getElementById('works');
@@ -232,29 +261,14 @@ function setupTargetCursor() {
 
   if (!worksSection || !cursorWrapper || !cursorBox || !cursorDot) return;
 
-  // State
   let mouseX = -100;
   let mouseY = -100;
   let isInsideWorks = false;
   let activeTarget = null;
 
-  // Current interpolated values
-  let currentBox = {
-    x: -100,
-    y: -100,
-    w: 36,
-    h: 36
-  };
+  let currentBox = { x: -100, y: -100, w: 36, h: 36 };
+  let targetBox = { x: -100, y: -100, w: 36, h: 36 };
 
-  // Target values to interpolate towards
-  let targetBox = {
-    x: -100,
-    y: -100,
-    w: 36,
-    h: 36
-  };
-
-  // Mouse movement inside Works section
   worksSection.addEventListener('mouseenter', () => {
     isInsideWorks = true;
     cursorWrapper.style.opacity = '1';
@@ -275,10 +289,8 @@ function setupTargetCursor() {
 
     if (!isInsideWorks) return;
 
-    // Center reticle dot follows cursor directly
     cursorWrapper.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
 
-    // Check if hovering over a target element
     if (activeTarget) {
       const rect = activeTarget.getBoundingClientRect();
       const padding = 8;
@@ -287,7 +299,6 @@ function setupTargetCursor() {
       targetBox.w = rect.width + padding * 2;
       targetBox.h = rect.height + padding * 2;
     } else {
-      // Floating mode: 36x36px brackets centered around cursor
       targetBox.w = 38;
       targetBox.h = 38;
       targetBox.x = mouseX - targetBox.w / 2;
@@ -295,7 +306,6 @@ function setupTargetCursor() {
     }
   });
 
-  // Attach hover listeners to all targetable elements in works
   const targets = worksSection.querySelectorAll('.target-element, .target-interactive');
 
   targets.forEach(target => {
@@ -318,10 +328,9 @@ function setupTargetCursor() {
     });
   });
 
-  // Smooth Lerp Animation Loop
   function renderCursor() {
     if (isInsideWorks) {
-      const lerp = 0.22; // Snappy smooth tracking
+      const lerp = 0.22;
       currentBox.x += (targetBox.x - currentBox.x) * lerp;
       currentBox.y += (targetBox.y - currentBox.y) * lerp;
       currentBox.w += (targetBox.w - currentBox.w) * lerp;
@@ -339,7 +348,7 @@ function setupTargetCursor() {
 }
 
 // ==========================================
-// 3. REACT BITS SPOTLIGHT CARD BORDER GLOW
+// 4. REACT BITS SPOTLIGHT CARD BORDER GLOW
 // ==========================================
 function setupSpotlightCards() {
   const cards = document.querySelectorAll('.spotlight-card');
@@ -357,7 +366,7 @@ function setupSpotlightCards() {
 }
 
 // ==========================================
-// 4. NAVBAR SCROLL EFFECT
+// 5. NAVBAR SCROLL EFFECT
 // ==========================================
 function setupNavbarScroll() {
   const navbar = document.getElementById('navbar');
@@ -371,7 +380,7 @@ function setupNavbarScroll() {
 }
 
 // ==========================================
-// 5. MOBILE MENU
+// 6. MOBILE MENU
 // ==========================================
 function setupMobileMenu() {
   const mobileBtn = document.getElementById('mobileMenuBtn');
@@ -392,7 +401,7 @@ function setupMobileMenu() {
 }
 
 // ==========================================
-// 6. VIDEO CARD HOVER PLAY / PAUSE PREVIEW
+// 7. VIDEO CARD HOVER PLAY / PAUSE PREVIEW
 // ==========================================
 function setupVideoHoverPreviews() {
   const videoCards = document.querySelectorAll('.project-item');
@@ -415,7 +424,7 @@ function setupVideoHoverPreviews() {
 }
 
 // ==========================================
-// 7. FILTER PORTFOLIO WORKS
+// 8. FILTER PORTFOLIO WORKS (FILMS)
 // ==========================================
 function filterWorks(category) {
   const buttons = document.querySelectorAll('.filter-btn');
@@ -446,7 +455,71 @@ function filterWorks(category) {
 }
 
 // ==========================================
-// 8. VIDEO THEATER MODAL
+// 9. FILTER PHOTOGRAPHY GALLERY
+// ==========================================
+function filterPhotos(category) {
+  const buttons = document.querySelectorAll('.photo-filter-btn');
+  const items = document.querySelectorAll('.photo-card-item');
+
+  buttons.forEach(btn => {
+    if (btn.dataset.filter === category) {
+      btn.classList.add('bg-brand-cyan', 'text-black');
+      btn.classList.remove('text-gray-400');
+    } else {
+      btn.classList.remove('bg-brand-cyan', 'text-black');
+      btn.classList.add('text-gray-400');
+    }
+  });
+
+  items.forEach(item => {
+    const itemCat = item.dataset.category;
+    if (category === 'all' || itemCat === category) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+// ==========================================
+// 10. FULLSCREEN PHOTO LIGHTBOX MODAL
+// ==========================================
+const photoModal = document.getElementById('photoModal');
+const modalPhotoImage = document.getElementById('modalPhotoImage');
+const modalPhotoTitle = document.getElementById('modalPhotoTitle');
+const modalPhotoSubtitle = document.getElementById('modalPhotoSubtitle');
+const modalPhotoWhatsAppLink = document.getElementById('modalPhotoWhatsAppLink');
+
+function openPhotoModal(imageSrc, title, subtitle) {
+  if (!photoModal || !modalPhotoImage) return;
+
+  modalPhotoImage.src = imageSrc;
+  modalPhotoTitle.textContent = title || 'Shahin Photography';
+  modalPhotoSubtitle.textContent = (subtitle || 'Highland Capture') + ' • Fine-Art Still';
+
+  const encodedText = encodeURIComponent(`Hi Shahinsha! I saw your photograph "${title}" on your portfolio and I'm interested in booking a photography / portrait shoot.`);
+  modalPhotoWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
+
+  photoModal.classList.remove('opacity-0', 'pointer-events-none');
+  photoModal.classList.add('opacity-100');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePhotoModal() {
+  if (!photoModal || !modalPhotoImage) return;
+
+  photoModal.classList.add('opacity-0', 'pointer-events-none');
+  photoModal.classList.remove('opacity-100');
+  modalPhotoImage.src = '';
+  document.body.style.overflow = 'auto';
+}
+
+// ==========================================
+// 11. VIDEO THEATER MODAL
 // ==========================================
 const modal = document.getElementById('videoModal');
 const modalPlayer = document.getElementById('modalVideoPlayer');
@@ -482,21 +555,30 @@ function closeVideoModal() {
 }
 
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal && !modal.classList.contains('opacity-0')) {
-    closeVideoModal();
+  if (e.key === 'Escape') {
+    if (modal && !modal.classList.contains('opacity-0')) {
+      closeVideoModal();
+    }
+    if (photoModal && !photoModal.classList.contains('opacity-0')) {
+      closePhotoModal();
+    }
   }
 });
 
 if (modal) {
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeVideoModal();
-    }
+    if (e.target === modal) closeVideoModal();
+  });
+}
+
+if (photoModal) {
+  photoModal.addEventListener('click', (e) => {
+    if (e.target === photoModal) closePhotoModal();
   });
 }
 
 // ==========================================
-// 9. CONTACT FORM VIA WHATSAPP
+// 12. CONTACT FORM VIA WHATSAPP
 // ==========================================
 function handleFormSubmit(event) {
   event.preventDefault();
@@ -506,7 +588,7 @@ function handleFormSubmit(event) {
   const category = document.getElementById('projectCategory').value;
   const details = document.getElementById('projectDetails').value.trim();
 
-  const message = `🎬 *New Project Inquiry for Shahinsha Kabeer*\n\n*Name:* ${name}\n*Contact:* ${phone}\n*Project Type:* ${category}\n*Details:* ${details}\n\nSent from Portfolio Website.`;
+  const message = `🎬 *New Project Inquiry for Shahinsha Kabeer*\n\n*Name:* ${name}\n*Contact:* ${phone}\n*Category:* ${category}\n*Details:* ${details}\n\nSent from Portfolio Website.`;
 
   const waUrl = `https://wa.me/918547277727?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');

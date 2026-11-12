@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SHAHINSHA KABEER | Video Editor & Videographer Portfolio</title>
-  <meta name="description" content="Portfolio of Shahinsha Kabeer - Video Editor & Videographer with 2 years of professional experience at Dsoft Solution (Kaelixo). Specializing in Adobe Premiere Pro, CapCut, pacing, and visual storytelling." />
+  <title>SHAHINSHA KABEER | Videographer, Editor & Photographer Portfolio</title>
+  <meta name="description" content="Portfolio of Shahinsha Kabeer - Professional Video Editor, Videographer & Photographer with 2 years of agency experience at Dsoft Solution (Kaelixo). Specializing in Adobe Premiere Pro, CapCut, cinematography and fine art photography." />
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -123,6 +123,34 @@
     .spotlight-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 20px 40px -15px rgba(245, 158, 11, 0.2);
+    }
+
+    /* React Bits 3D Glare Hover Card */
+    .glare-card {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .glare-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .glare-sheen {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.35) 0%, transparent 60%);
+      opacity: 0;
+      mix-blend-mode: overlay;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+    .glare-card:hover .glare-sheen {
+      opacity: 1;
     }
 
     /* Particle Text Canvas Container */
@@ -266,14 +294,18 @@
           <div class="flex flex-col">
             <span class="font-syne font-bold tracking-wider text-white text-base sm:text-lg group-hover:text-brand-gold transition leading-tight">SHAHINSHA KABEER</span>
             <span class="text-[10px] uppercase font-mono tracking-widest text-gray-400 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-rec-blink"></span> VIDEO EDITOR • VIDEOGRAPHER
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-rec-blink"></span> VIDEO • PHOTO • EDIT
             </span>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
-        <nav class="hidden lg:flex items-center gap-7 glass-panel px-6 py-2.5 rounded-full shadow-2xl">
-          <a href="#works" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition">Works</a>
+        <nav class="hidden lg:flex items-center gap-6 glass-panel px-6 py-2.5 rounded-full shadow-2xl">
+          <a href="#works" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition">Filmography</a>
+          <a href="#photography" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition flex items-center gap-1.5">
+            <i data-lucide="camera" class="w-3.5 h-3.5 text-brand-gold"></i>
+            <span>Photography</span>
+          </a>
           <a href="#experience" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition">Experience</a>
           <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition">Skills</a>
           <a href="#about" class="text-sm font-medium text-gray-300 hover:text-brand-gold transition">About</a>
@@ -295,7 +327,7 @@
           </a>
 
           <!-- Book Shoot / WhatsApp Button -->
-          <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20video%20project!" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-gold to-brand-amber text-black font-semibold text-xs sm:text-sm hover:brightness-110 shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5">
+          <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20project!" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-gold to-brand-amber text-black font-semibold text-xs sm:text-sm hover:brightness-110 shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
             <span>WhatsApp</span>
           </a>
@@ -310,7 +342,11 @@
 
     <!-- Mobile Nav Dropdown -->
     <div id="mobileMenu" class="hidden lg:hidden glass-panel border-t border-brand-border px-6 py-5 mx-4 rounded-2xl mt-2 flex flex-col gap-3">
-      <a href="#works" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link">Works</a>
+      <a href="#works" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link">Filmography</a>
+      <a href="#photography" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link flex items-center gap-2">
+        <i data-lucide="camera" class="w-4 h-4 text-brand-gold"></i>
+        <span>Photography Showcase</span>
+      </a>
       <a href="#experience" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link">Experience (Dsoft Solution)</a>
       <a href="#services" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link">Skills & Services</a>
       <a href="#about" class="text-gray-300 hover:text-brand-gold text-base py-1 mobile-nav-link">About</a>
@@ -326,7 +362,7 @@
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>Download CV (PDF)</span>
         </a>
-        <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20video%20project!" target="_blank" class="w-full text-center py-3 rounded-xl bg-brand-gold text-black font-bold text-sm">
+        <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20project!" target="_blank" class="w-full text-center py-3 rounded-xl bg-brand-gold text-black font-bold text-sm">
           Chat on WhatsApp (+91 8547277727)
         </a>
       </div>
@@ -345,7 +381,7 @@
           <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-brand-gold/30 text-xs font-mono uppercase tracking-wider text-brand-gold">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>Available for Full-time & Freelance</span>
+              <span>Available for Full-time, Shoots & Freelance</span>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-400">
               <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-cyan"></i>
@@ -364,26 +400,26 @@
             <div id="particleTextContainer" class="select-none cursor-pointer">
               <canvas id="particleCanvas" class="w-full h-full block"></canvas>
               <!-- Accessible fallback for SEO -->
-              <h1 class="sr-only">SHAHINSHA KABEER - Video Editor & Videographer</h1>
+              <h1 class="sr-only">SHAHINSHA KABEER - Video Editor, Videographer & Photographer</h1>
             </div>
 
             <p class="text-base sm:text-lg text-brand-cyan font-mono font-medium tracking-wide">
-              VIDEO EDITOR • VIDEOGRAPHER • VISUAL STORYTELLER
+              VIDEOGRAPHER • VIDEO EDITOR • PHOTOGRAPHER
             </p>
             <p class="text-base sm:text-lg text-gray-300 font-sans max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
-              Creative and hardworking Video Editor with <span class="text-white font-semibold">2 years of professional experience at Dsoft Solution (Kaelixo)</span>. Master in Adobe Premiere Pro and CapCut, shaping rhythm, clean cuts, timing, and high-impact social media narratives.
+              Creative and hardworking visual storyteller with <span class="text-white font-semibold">2 years of professional agency experience at Dsoft Solution (Kaelixo)</span>. Experienced in Adobe Premiere Pro, CapCut, camera choreography, and fine-art landscape photography.
             </p>
           </div>
 
           <!-- Quick Badges & Metadata from CV -->
           <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs font-mono text-gray-300">
             <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-              <i data-lucide="scissors" class="w-3.5 h-3.5 text-brand-gold"></i>
-              <span>Adobe Premiere Pro</span>
+              <i data-lucide="camera" class="w-3.5 h-3.5 text-brand-gold"></i>
+              <span>Fine-Art Photography</span>
             </div>
             <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-              <i data-lucide="smartphone" class="w-3.5 h-3.5 text-brand-cyan"></i>
-              <span>CapCut Pro</span>
+              <i data-lucide="scissors" class="w-3.5 h-3.5 text-brand-cyan"></i>
+              <span>Premiere Pro & CapCut</span>
             </div>
             <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
               <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-400"></i>
@@ -391,7 +427,7 @@
             </div>
             <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
               <i data-lucide="sliders" class="w-3.5 h-3.5 text-red-400"></i>
-              <span>Audio Sync & Color</span>
+              <span>Color & Lighting</span>
             </div>
           </div>
 
@@ -403,21 +439,21 @@
               <span>Watch Showreel</span>
             </button>
 
-            <!-- Download CV (Prominent CTA) -->
+            <!-- Photography Gallery Link -->
+            <a href="#photography" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-full glass-panel hover:bg-white/10 text-white font-medium text-sm transition border border-white/15 hover:border-brand-cyan/50">
+              <i data-lucide="camera" class="w-4 h-4 text-brand-cyan"></i>
+              <span>View Photography</span>
+            </a>
+
+            <!-- Download CV -->
             <a 
               href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               target="_blank" 
-              class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-4 rounded-full glass-panel hover:bg-white/10 text-brand-gold font-syne font-bold text-sm transition border border-brand-gold/40 hover:border-brand-gold shadow-lg shadow-amber-500/10 group"
+              class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-4 rounded-full glass-panel hover:bg-white/10 text-brand-gold font-syne font-bold text-sm transition border border-brand-gold/40 hover:border-brand-gold shadow-lg shadow-amber-500/10 group"
             >
               <i data-lucide="download" class="w-4 h-4 group-hover:translate-y-0.5 transition-transform"></i>
-              <span>Download CV (PDF)</span>
-            </a>
-
-            <!-- Explore Projects -->
-            <a href="#works" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-full glass-panel hover:bg-white/10 text-white font-medium text-sm transition border border-white/10">
-              <i data-lucide="film" class="w-4 h-4 text-gray-400"></i>
-              <span>View Works</span>
+              <span>Get CV</span>
             </a>
           </div>
 
@@ -497,7 +533,7 @@
             <div class="p-4 flex items-center justify-between">
               <div>
                 <h3 class="font-syne font-bold text-lg text-white">Shahinsha Kabeer</h3>
-                <p class="text-xs text-gray-400 font-sans">Video Editor / Videographer • Dsoft Solution</p>
+                <p class="text-xs text-gray-400 font-sans">Videographer • Editor • Photographer</p>
               </div>
               <a href="https://instagram.com/kybercell" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-brand-gold transition border border-white/10">
                 <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
@@ -510,165 +546,6 @@
         </div>
 
       </div>
-    </div>
-  </section>
-
-  <!-- CAREER & EXPERIENCE SECTION -->
-  <section id="experience" class="py-20 relative bg-brand-dark/30 border-t border-b border-brand-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-cyan mb-2">
-            <i data-lucide="briefcase" class="w-4 h-4"></i>
-            <span>WORK EXPERIENCE & BACKGROUND</span>
-          </div>
-          <h2 class="text-3xl sm:text-5xl font-extrabold font-syne text-white">
-            PROVEN TRACK RECORD.
-          </h2>
-          <p class="text-gray-400 text-sm sm:text-base mt-2 max-w-xl">
-            2 years of practical experience delivering high quality video content in a fast-paced professional company environment.
-          </p>
-        </div>
-
-        <!-- Download CV Action Card -->
-        <div class="glass-panel spotlight-card p-4 rounded-2xl border border-brand-gold/30 flex items-center gap-4 self-start md:self-auto">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold">
-            <i data-lucide="file-check-2" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <div class="text-xs font-mono text-gray-400">CURRICULUM VITAE</div>
-            <div class="text-sm font-bold font-syne text-white">Shahinsha Kabeer Resume</div>
-          </div>
-          <a 
-            href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
-            download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
-            target="_blank" 
-            class="px-4 py-2 rounded-xl bg-brand-gold text-black font-semibold text-xs flex items-center gap-1.5 hover:brightness-110 transition shadow-md"
-          >
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Download PDF</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Experience Cards Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Experience Detail (8 Cols) -->
-        <div class="lg:col-span-8 space-y-6">
-          <div class="glass-panel spotlight-card p-8 rounded-3xl border border-white/10 relative overflow-hidden group">
-            
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-5 border-b border-brand-border">
-              <div>
-                <span class="px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold font-mono text-xs uppercase tracking-wider">
-                  Full-Time Experience
-                </span>
-                <h3 class="text-2xl font-bold font-syne text-white mt-2">Video Editor & Videographer</h3>
-                <p class="text-sm text-brand-cyan font-mono font-medium">Dsoft Solution (Kaelixo)</p>
-              </div>
-              <div class="text-left sm:text-right font-mono text-xs">
-                <div class="text-white font-bold bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 inline-block">2 Years Experience</div>
-                <div class="text-gray-400 mt-1">Kerala, India</div>
-              </div>
-            </div>
-
-            <!-- Experience Bullets -->
-            <ul class="space-y-3.5 text-sm text-gray-300 font-sans">
-              <li class="flex items-start gap-3">
-                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
-                <span>Worked for <strong>2 years at Dsoft Solution (Kaelixo)</strong>, gaining hands-on practical experience in a high-demand professional studio environment.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
-                <span>Used industry video-editing tools including <strong>Adobe Premiere Pro</strong> and <strong>CapCut</strong> to edit and refine commercial video content.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
-                <span>Focused on <strong>clear sequencing, smooth transitions, rhythm & timing</strong>, and presenting raw footage into engaging visual stories.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
-                <span>Delivered digital and social-media video content designed for high retention across Instagram, YouTube, and marketing platforms.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
-                <span>Worked responsibly to complete assigned tasks and coordinate closely with clients and creative teams to meet tight deadlines.</span>
-              </li>
-            </ul>
-
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-2 pt-6 mt-6 border-t border-brand-border/60 text-xs font-mono">
-              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Adobe Premiere Pro</span>
-              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">CapCut</span>
-              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Transitions & Pacing</span>
-              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Audio Sync</span>
-              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Social Media Content</span>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Education, Languages & Personal Profile (4 Cols) -->
-        <div class="lg:col-span-4 space-y-6">
-          
-          <!-- Education & Languages Card -->
-          <div class="glass-panel spotlight-card p-6 rounded-3xl border border-white/10 space-y-5">
-            <h4 class="text-base font-bold font-syne text-white flex items-center gap-2">
-              <i data-lucide="graduation-cap" class="w-5 h-5 text-brand-gold"></i>
-              <span>Education & Qualifications</span>
-            </h4>
-            
-            <div class="p-3.5 rounded-2xl bg-white/5 border border-white/5 space-y-1">
-              <div class="text-xs font-mono text-brand-gold">HIGHER SECONDARY</div>
-              <div class="text-sm font-bold text-white font-syne">+2 Higher Secondary — Passed</div>
-              <div class="text-xs text-gray-400">Board of Higher Secondary Education, Kerala</div>
-            </div>
-
-            <!-- Languages -->
-            <div class="pt-2 border-t border-brand-border">
-              <div class="text-xs font-mono text-gray-400 mb-2">LANGUAGES KNOWN</div>
-              <div class="flex gap-2">
-                <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-white border border-white/10 flex items-center gap-1.5">
-                  <i data-lucide="languages" class="w-3.5 h-3.5 text-brand-cyan"></i> Malayalam (Native)
-                </span>
-                <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-white border border-white/10 flex items-center gap-1.5">
-                  <i data-lucide="languages" class="w-3.5 h-3.5 text-brand-gold"></i> English
-                </span>
-              </div>
-            </div>
-
-            <!-- Additional Interests -->
-            <div class="pt-2 border-t border-brand-border">
-              <div class="text-xs font-mono text-gray-400 mb-2">ADDITIONAL INTERESTS</div>
-              <div class="flex flex-wrap gap-2 text-xs font-mono text-gray-300">
-                <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 flex items-center gap-1.5">
-                  <i data-lucide="music" class="w-3.5 h-3.5 text-pink-400"></i> Singing
-                </span>
-                <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 flex items-center gap-1.5">
-                  <i data-lucide="car" class="w-3.5 h-3.5 text-amber-400"></i> Driving
-                </span>
-              </div>
-            </div>
-
-            <!-- Direct Contact Card -->
-            <div class="pt-4 border-t border-brand-border">
-              <a 
-                href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
-                target="_blank" 
-                class="w-full py-3 rounded-xl glass-panel border border-brand-gold/40 hover:bg-brand-gold/10 text-brand-gold font-syne font-bold text-xs flex items-center justify-center gap-2 transition"
-              >
-                <i data-lucide="eye" class="w-4 h-4"></i>
-                <span>Open Resume in Browser</span>
-              </a>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
     </div>
   </section>
 
@@ -947,6 +824,363 @@
     </div>
   </section>
 
+  <!-- ======================================================== -->
+  <!-- PHOTOGRAPHY SHOWCASE (REACT BITS 3D GLARE HOVER GALLERY) -->
+  <!-- ======================================================== -->
+  <section id="photography" class="py-24 relative bg-brand-dark/40 border-t border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-cyan mb-3">
+            <i data-lucide="aperture" class="w-4 h-4 text-brand-cyan"></i>
+            <span>STILL PHOTOGRAPHY & COMPOSITIONS</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-syne text-white">
+            CAPTURED THROUGH THE LENS.
+          </h2>
+          <p class="text-gray-400 text-sm sm:text-base mt-2 max-w-xl">
+            Framing nature, mood, and urban geometry. Features <strong>React Bits 3D Glare Hover</strong>—move your cursor to tilt photos in 3D perspective with realistic light reflections.
+          </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start md:self-auto">
+          <button onclick="filterPhotos('all')" class="photo-filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-cyan transition" data-filter="all">All Stills</button>
+          <button onclick="filterPhotos('landscape')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="landscape">Highlands & Mist</button>
+          <button onclick="filterPhotos('street')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="street">Urban & Metro</button>
+          <button onclick="filterPhotos('mood')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="mood">Atmospheric</button>
+        </div>
+      </div>
+
+      <!-- PHOTOGRAPHY GRID WITH 3D GLARE TILT -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="photoGrid">
+        
+        <!-- Photo 1: Ghats Road (Landscape) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-10.jpg', 'Ghats Mountain Pass', 'Idukki Highlands • Morning Mist')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-10.jpg" alt="Idukki Mountain Ghats Road" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
+                f/1.8 • 1/200s
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Idukki Pass</span>
+                <h4 class="text-sm font-bold font-syne text-white">Ghats Forest Canopy</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 2: Munnar Mist & Tea Gardens (Landscape) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-03.jpg', 'Munnar Mist Canopy', 'Western Ghats • Moody Cloud Cover')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-03.jpg" alt="Munnar Mist Canopy" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
+                Moody Raw
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Highlands</span>
+                <h4 class="text-sm font-bold font-syne text-white">Munnar Tea Canopy</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 3: Kochi Metro Nocturne (Street) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="street" onclick="openPhotoModal('img/photography/photo-06.jpg', 'Kochi Metro Nocturne', 'Pathadipalam Viaduct • Rain Reflection')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-06.jpg" alt="Kochi Metro Night Ride" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
+                Night ISO 1600
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-cyan uppercase tracking-wider">Urban Night</span>
+                <h4 class="text-sm font-bold font-syne text-white">Kochi Metro Viaduct</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 4: Solitude in the Meadows (Portrait / Outdoor) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-01.jpg', 'Meadow Solitude', 'Kerala Backcountry • Cinematic Framing')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-01.jpg" alt="Kerala Meadows Couple Shoot" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
+                Story Cut
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Outdoor Story</span>
+                <h4 class="text-sm font-bold font-syne text-white">The White Umbrella</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 5: Twilight Valley (Landscape) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-02.jpg', 'Tea Country Twilight', 'Munnar Slopes • Golden Hour Glow')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-02.jpg" alt="Tea Country Dusk" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-amber-400">
+                Dusk Tint
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Highland Village</span>
+                <h4 class="text-sm font-bold font-syne text-white">Tea Country Twilight</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 6: Metro Geometry (Street) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="street" onclick="openPhotoModal('img/photography/photo-08.jpg', 'Platform Geometry', 'Transit POV • Minimalist Framing')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-08.jpg" alt="Metro Platform Geometry" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-gray-300">
+                Lines & Texture
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Minimalist</span>
+                <h4 class="text-sm font-bold font-syne text-white">Platform Geometry</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 7: Rain on Glass (Atmospheric) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="mood" onclick="openPhotoModal('img/photography/photo-04.jpg', 'Rain on Glass', 'Monsoon Depth of Field • Macro Bokeh')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-04.jpg" alt="Rain on Windshield" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
+                Macro f/1.8
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-cyan uppercase tracking-wider">Atmospheric</span>
+                <h4 class="text-sm font-bold font-syne text-white">Rain on Glass</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 8: Untold Stories Peak (Landscape) -->
+        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-05.jpg', 'Untold Stories', 'Cloud Inversion over Valley • Fine Art')">
+          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
+            <div class="glare-sheen"></div>
+            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
+              <img src="img/photography/photo-05.jpg" alt="Untold Stories Landscape" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
+                Fine Art
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
+                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Mountain Lore</span>
+                <h4 class="text-sm font-bold font-syne text-white">Cloud Inversion</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CAREER & EXPERIENCE SECTION -->
+  <section id="experience" class="py-20 relative bg-brand-dark/30 border-t border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-cyan mb-2">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+            <span>WORK EXPERIENCE & BACKGROUND</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-syne text-white">
+            PROVEN TRACK RECORD.
+          </h2>
+          <p class="text-gray-400 text-sm sm:text-base mt-2 max-w-xl">
+            2 years of practical experience delivering high quality video content in a fast-paced professional company environment.
+          </p>
+        </div>
+
+        <!-- Download CV Action Card -->
+        <div class="glass-panel spotlight-card p-4 rounded-2xl border border-brand-gold/30 flex items-center gap-4 self-start md:self-auto">
+          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+            <i data-lucide="file-check-2" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-gray-400">CURRICULUM VITAE</div>
+            <div class="text-sm font-bold font-syne text-white">Shahinsha Kabeer Resume</div>
+          </div>
+          <a 
+            href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
+            download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
+            target="_blank" 
+            class="px-4 py-2 rounded-xl bg-brand-gold text-black font-semibold text-xs flex items-center gap-1.5 hover:brightness-110 transition shadow-md"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download PDF</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Experience Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Experience Detail (8 Cols) -->
+        <div class="lg:col-span-8 space-y-6">
+          <div class="glass-panel spotlight-card p-8 rounded-3xl border border-white/10 relative overflow-hidden group">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-5 border-b border-brand-border">
+              <div>
+                <span class="px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold font-mono text-xs uppercase tracking-wider">
+                  Full-Time Experience
+                </span>
+                <h3 class="text-2xl font-bold font-syne text-white mt-2">Video Editor & Videographer</h3>
+                <p class="text-sm text-brand-cyan font-mono font-medium">Dsoft Solution (Kaelixo)</p>
+              </div>
+              <div class="text-left sm:text-right font-mono text-xs">
+                <div class="text-white font-bold bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 inline-block">2 Years Experience</div>
+                <div class="text-gray-400 mt-1">Kerala, India</div>
+              </div>
+            </div>
+
+            <!-- Experience Bullets -->
+            <ul class="space-y-3.5 text-sm text-gray-300 font-sans">
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                <span>Worked for <strong>2 years at Dsoft Solution (Kaelixo)</strong>, gaining hands-on practical experience in a high-demand professional studio environment.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                <span>Used industry video-editing tools including <strong>Adobe Premiere Pro</strong> and <strong>CapCut</strong> to edit and refine commercial video content.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                <span>Focused on <strong>clear sequencing, smooth transitions, rhythm & timing</strong>, and presenting raw footage into engaging visual stories.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                <span>Delivered digital and social-media video content designed for high retention across Instagram, YouTube, and marketing platforms.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                <span>Worked responsibly to complete assigned tasks and coordinate closely with clients and creative teams to meet tight deadlines.</span>
+              </li>
+            </ul>
+
+            <!-- Tech Pills -->
+            <div class="flex flex-wrap gap-2 pt-6 mt-6 border-t border-brand-border/60 text-xs font-mono">
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Adobe Premiere Pro</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">CapCut</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Transitions & Pacing</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Audio Sync</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Social Media Content</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Education, Languages & Personal Profile (4 Cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          
+          <!-- Education & Languages Card -->
+          <div class="glass-panel spotlight-card p-6 rounded-3xl border border-white/10 space-y-5">
+            <h4 class="text-base font-bold font-syne text-white flex items-center gap-2">
+              <i data-lucide="graduation-cap" class="w-5 h-5 text-brand-gold"></i>
+              <span>Education & Qualifications</span>
+            </h4>
+            
+            <div class="p-3.5 rounded-2xl bg-white/5 border border-white/5 space-y-1">
+              <div class="text-xs font-mono text-brand-gold">HIGHER SECONDARY</div>
+              <div class="text-sm font-bold text-white font-syne">+2 Higher Secondary — Passed</div>
+              <div class="text-xs text-gray-400">Board of Higher Secondary Education, Kerala</div>
+            </div>
+
+            <!-- Languages -->
+            <div class="pt-2 border-t border-brand-border">
+              <div class="text-xs font-mono text-gray-400 mb-2">LANGUAGES KNOWN</div>
+              <div class="flex gap-2">
+                <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-white border border-white/10 flex items-center gap-1.5">
+                  <i data-lucide="languages" class="w-3.5 h-3.5 text-brand-cyan"></i> Malayalam (Native)
+                </span>
+                <span class="px-3 py-1 rounded-lg bg-white/5 text-xs text-white border border-white/10 flex items-center gap-1.5">
+                  <i data-lucide="languages" class="w-3.5 h-3.5 text-brand-gold"></i> English
+                </span>
+              </div>
+            </div>
+
+            <!-- Additional Interests -->
+            <div class="pt-2 border-t border-brand-border">
+              <div class="text-xs font-mono text-gray-400 mb-2">ADDITIONAL INTERESTS</div>
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-gray-300">
+                <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 flex items-center gap-1.5">
+                  <i data-lucide="music" class="w-3.5 h-3.5 text-pink-400"></i> Singing
+                </span>
+                <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 flex items-center gap-1.5">
+                  <i data-lucide="car" class="w-3.5 h-3.5 text-amber-400"></i> Driving
+                </span>
+              </div>
+            </div>
+
+            <!-- Direct Contact Card -->
+            <div class="pt-4 border-t border-brand-border">
+              <a 
+                href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
+                target="_blank" 
+                class="w-full py-3 rounded-xl glass-panel border border-brand-gold/40 hover:bg-brand-gold/10 text-brand-gold font-syne font-bold text-xs flex items-center justify-center gap-2 transition"
+              >
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                <span>Open Resume in Browser</span>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- CORE SKILLS & SERVICES -->
   <section id="services" class="py-24 bg-brand-dark/50 relative border-t border-b border-brand-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1080,10 +1314,10 @@
 
           <div class="space-y-4 text-gray-300 font-sans text-base leading-relaxed">
             <p>
-              I am <span class="text-white font-semibold">Shahinsha Kabeer</span>, a dedicated Video Editor and Videographer based in <strong>Idukki, Kerala</strong>. With 2 years of professional agency experience at <strong>Dsoft Solution (Kaelixo)</strong>, I have cultivated a deep passion for visual storytelling, clean cuts, and dynamic social content.
+              I am <span class="text-white font-semibold">Shahinsha Kabeer</span>, a dedicated Video Editor, Videographer and Photographer based in <strong>Idukki, Kerala</strong>. With 2 years of professional agency experience at <strong>Dsoft Solution (Kaelixo)</strong>, I have cultivated a deep passion for visual storytelling, clean cuts, and fine-art still photography.
             </p>
             <p>
-              As a quick learner with good communication skills, a positive attitude, and a willingness to work collaboratively, I take full ownership of projects from raw clip ingestion to the final export. Whether crafting travel stories or snappy commercial reels, I make sure deadlines are always respected with zero compromise on quality.
+              As a quick learner with good communication skills, a positive attitude, and a willingness to work collaboratively, I take full ownership of projects from raw clip ingestion to the final export. Whether framing mountain landscapes in Munnar or cutting high-energy commercial reels, I make sure deadlines are always respected with zero compromise on quality.
             </p>
           </div>
 
@@ -1095,7 +1329,7 @@
             </div>
             <div class="flex items-center gap-2.5 text-gray-300">
               <i data-lucide="check-circle" class="w-4 h-4 text-brand-gold"></i>
-              <span>Audio Synchronization</span>
+              <span>Visual Composition & Lighting</span>
             </div>
             <div class="flex items-center gap-2.5 text-gray-300">
               <i data-lucide="check-circle" class="w-4 h-4 text-brand-gold"></i>
@@ -1148,12 +1382,12 @@
           </h2>
 
           <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
-            Interested in hiring for full-time video editing roles, commercial video shoots, or social media content? Reach out directly via WhatsApp, Phone, or Email.
+            Interested in hiring for video editing roles, cinematography shoots, or photography projects? Reach out directly via WhatsApp, Phone, or Email.
           </p>
 
           <div class="space-y-4 pt-4">
             <!-- WhatsApp & Phone Item -->
-            <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20want%20to%20discuss%20a%20video%20project!" target="_blank" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-brand-gold/30 hover:bg-brand-gold/10 transition group">
+            <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20want%20to%20discuss%20a%20project!" target="_blank" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-brand-gold/30 hover:bg-brand-gold/10 transition group">
               <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold group-hover:scale-110 transition">
                 <i data-lucide="phone" class="w-6 h-6"></i>
               </div>
@@ -1228,10 +1462,10 @@
                 <label class="block text-xs font-mono text-gray-300 mb-1.5 uppercase">Opportunity / Category</label>
                 <select id="projectCategory" class="w-full px-4 py-3 rounded-xl bg-[#14141c] border border-white/10 text-white focus:border-brand-gold focus:outline-none text-sm transition">
                   <option value="Full-Time Video Editor Hiring">Full-Time Video Editor Hiring</option>
+                  <option value="Photography Shoot / Commercial Stills">Photography Shoot / Commercial Stills</option>
                   <option value="Freelance Video Editing Project">Freelance Video Editing Project</option>
                   <option value="Social Media Reels / Shorts Package">Social Media Reels / Shorts Package</option>
                   <option value="Videography & Shoot Booking">Videography & Shoot Booking</option>
-                  <option value="Travel Documentary / Commercial Project">Travel Documentary / Commercial Project</option>
                   <option value="General Inquiry">General Inquiry</option>
                 </select>
               </div>
@@ -1263,12 +1497,13 @@
         <span class="w-3 h-3 rounded-full bg-red-600 animate-rec-blink"></span>
         <span class="text-gray-400 font-bold font-syne">SHAHINSHA KABEER</span>
         <span>•</span>
-        <span>VIDEO EDITOR & VIDEOGRAPHER</span>
+        <span>VIDEO • PHOTO • EDITING</span>
       </div>
 
       <div class="flex items-center gap-6 text-gray-400">
         <a href="#hero" class="hover:text-brand-gold transition">Top</a>
-        <a href="#works" class="hover:text-brand-gold transition">Works</a>
+        <a href="#works" class="hover:text-brand-gold transition">Filmography</a>
+        <a href="#photography" class="hover:text-brand-gold transition">Photography</a>
         <a href="#experience" class="hover:text-brand-gold transition">Experience</a>
         <a 
           href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
@@ -1290,15 +1525,11 @@
 
   <!-- FULLSCREEN VIDEO THEATER MODAL -->
   <div id="videoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-2 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300">
-    <!-- Close Button -->
     <button onclick="closeVideoModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition border border-white/20 z-50 cursor-pointer" aria-label="Close modal">
       <i data-lucide="x" class="w-6 h-6"></i>
     </button>
 
-    <!-- Modal Content Window -->
     <div class="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center">
-      
-      <!-- Video Player -->
       <div class="relative w-full flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl bg-black border border-white/10">
         <video 
           id="modalVideoPlayer" 
@@ -1309,7 +1540,6 @@
         ></video>
       </div>
 
-      <!-- Video Meta Footer -->
       <div class="w-full mt-4 glass-panel px-6 py-3 rounded-xl flex items-center justify-between">
         <div>
           <h4 id="modalVideoTitle" class="text-base sm:text-lg font-bold font-syne text-white">Project Title</h4>
@@ -1318,11 +1548,36 @@
         <div class="flex items-center gap-3">
           <a id="modalWhatsAppLink" href="#" target="_blank" class="px-4 py-2 rounded-lg bg-brand-gold text-black font-semibold text-xs flex items-center gap-1.5 hover:bg-amber-400 transition">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
-            <span>Discuss Project on WhatsApp</span>
+            <span>Discuss on WhatsApp</span>
           </a>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- FULLSCREEN PHOTO LIGHTBOX MODAL -->
+  <div id="photoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-2 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300">
+    <button onclick="closePhotoModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition border border-white/20 z-50 cursor-pointer" aria-label="Close photo">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+
+    <div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center justify-center">
+      <div class="relative w-full flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl bg-black/80 border border-white/10 p-2">
+        <img id="modalPhotoImage" src="" alt="Shahin Photography" class="max-h-[76vh] w-auto max-w-full rounded-xl object-contain shadow-2xl" />
+      </div>
+
+      <div class="w-full mt-3 glass-panel px-6 py-3 rounded-xl flex items-center justify-between">
+        <div>
+          <h4 id="modalPhotoTitle" class="text-base sm:text-lg font-bold font-syne text-white">Photo Title</h4>
+          <p id="modalPhotoSubtitle" class="text-xs text-brand-cyan font-mono">Location & Details</p>
+        </div>
+        <div>
+          <a id="modalPhotoWhatsAppLink" href="#" target="_blank" class="px-4 py-2 rounded-lg bg-brand-cyan text-black font-semibold text-xs flex items-center gap-1.5 hover:brightness-110 transition">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Inquire Photo Shoot</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -73,26 +73,21 @@ function setupParticleText() {
     isInteracting: false
   };
 
-  const colors = [
-    '#F59E0B',
-    '#FBBF24',
-    '#FCD34D',
-    '#FEF3C7',
-    '#06B6D4'
-  ];
+  // Pure uniform crisp color for 100% readability
+  const particleColor = '#FFFFFF';
 
   class Particle {
     constructor(originX, originY) {
       this.originX = originX;
       this.originY = originY;
-      this.x = originX + (Math.random() - 0.5) * 200;
-      this.y = originY + (Math.random() - 0.5) * 200;
-      this.vx = (Math.random() - 0.5) * 4;
-      this.vy = (Math.random() - 0.5) * 4;
-      this.size = Math.random() * 1.6 + 1.2;
-      this.color = colors[Math.floor(Math.random() * colors.length)];
-      this.ease = 0.08 + Math.random() * 0.04;
-      this.friction = 0.86;
+      this.x = originX + (Math.random() - 0.5) * 80;
+      this.y = originY + (Math.random() - 0.5) * 80;
+      this.vx = (Math.random() - 0.5) * 2;
+      this.vy = (Math.random() - 0.5) * 2;
+      this.size = 1.35;
+      this.color = particleColor;
+      this.ease = 0.09 + Math.random() * 0.03;
+      this.friction = 0.88;
       this.idleOffset = Math.random() * Math.PI * 2;
     }
 
@@ -169,7 +164,7 @@ function setupParticleText() {
 
     const imgData = offCtx.getImageData(0, 0, width, height);
     const pixels = imgData.data;
-    const gap = 4;
+    const gap = 3;
 
     const newParticles = [];
 
@@ -178,7 +173,7 @@ function setupParticleText() {
         const index = (y * width + x) * 4;
         const alpha = pixels[index + 3];
 
-        if (alpha > 128) {
+        if (alpha > 100) {
           newParticles.push(new Particle(x, y));
         }
       }
@@ -538,7 +533,7 @@ function toggleMorePhotos() {
 function filterPhotos(category) {
   const buttons = document.querySelectorAll('.photo-filter-btn');
   const items = document.querySelectorAll('.photo-card-item');
-  const moreBtnContainer = document.getElementById('toggleMorePhotosBtn')?.parentElement;
+  const moreBtnContainer = document.getElementById('viewMoreControls');
 
   buttons.forEach(btn => {
     if (btn.dataset.filter === category) {
@@ -553,6 +548,7 @@ function filterPhotos(category) {
   if (category === 'all') {
     // Restore collapsed or expanded state
     items.forEach(item => {
+      item.style.display = '';
       if (item.classList.contains('extra-photo')) {
         if (isMorePhotosExpanded) {
           item.classList.remove('hidden');
@@ -560,19 +556,19 @@ function filterPhotos(category) {
           item.classList.add('hidden');
         }
       } else {
-        item.style.display = 'block';
+        item.classList.remove('hidden');
       }
     });
     if (moreBtnContainer) moreBtnContainer.style.display = 'flex';
   } else {
     // When a specific category is chosen, display ALL matching items (even if extra)
     items.forEach(item => {
+      item.style.display = '';
       const itemCat = item.dataset.category;
       if (itemCat === category) {
         item.classList.remove('hidden');
-        item.style.display = 'block';
       } else {
-        item.style.display = 'none';
+        item.classList.add('hidden');
       }
     });
     // Hide View More button when filtering by specific category

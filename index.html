@@ -260,6 +260,79 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* ======================================= */
+    /* REACT BITS DOME GALLERY 3D PROJECTION   */
+    /* ======================================= */
+    .dome-viewport {
+      perspective: 1000px;
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 580px;
+      user-select: none;
+      cursor: grab;
+      touch-action: none;
+    }
+    .dome-viewport:active {
+      cursor: grabbing;
+    }
+    .dome-world {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .dome-card {
+      position: absolute;
+      width: 140px;
+      height: 190px;
+      margin-left: -70px;
+      margin-top: -95px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      background: #000;
+      transform-style: preserve-3d;
+      transition: border-color 0.3s ease, filter 0.3s ease;
+      cursor: pointer;
+    }
+    @media (min-width: 640px) {
+      .dome-card {
+        width: 170px;
+        height: 230px;
+        margin-left: -85px;
+        margin-top: -115px;
+        border-radius: 32px;
+      }
+    }
+    .dome-card:hover {
+      border-color: #F59E0B;
+      box-shadow: 0 20px 45px rgba(245, 158, 11, 0.35);
+      filter: brightness(1.1);
+      z-index: 50;
+    }
+    .dome-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .dome-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+    }
   </style>
 </head>
 <body class="bg-brand-darker text-gray-200 font-sans selection:bg-brand-gold selection:text-black min-h-screen relative overflow-x-hidden film-grain">
@@ -399,7 +472,6 @@
             <!-- Canvas for Interactive Particle Text -->
             <div id="particleTextContainer" class="select-none cursor-pointer">
               <canvas id="particleCanvas" class="w-full h-full block"></canvas>
-              <!-- Accessible fallback for SEO -->
               <h1 class="sr-only">SHAHINSHA KABEER - Video Editor, Videographer & Photographer</h1>
             </div>
 
@@ -433,19 +505,16 @@
 
           <!-- CTA Buttons with Download CV -->
           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
-            <!-- Watch Showreel -->
             <button onclick="openVideoModal('video/Video-66535.mp4', 'Ooty Diaries', 'Cinematic Travel Film')" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-gradient-to-r from-brand-gold to-brand-amber text-black font-syne font-bold text-sm hover:scale-105 shadow-xl shadow-amber-500/20 transition cursor-pointer">
               <i data-lucide="play" class="w-4 h-4 fill-black"></i>
               <span>Watch Showreel</span>
             </button>
 
-            <!-- Photography Gallery Link -->
             <a href="#photography" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-full glass-panel hover:bg-white/10 text-white font-medium text-sm transition border border-white/15 hover:border-brand-cyan/50">
               <i data-lucide="camera" class="w-4 h-4 text-brand-cyan"></i>
-              <span>View Photography</span>
+              <span>3D Dome Gallery</span>
             </a>
 
-            <!-- Download CV -->
             <a 
               href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
@@ -477,14 +546,9 @@
 
         <!-- Right Column: Studio Portrait with Camera Viewfinder HUD -->
         <div class="lg:col-span-5 relative flex justify-center">
-          
-          <!-- Outer Decorative Glow -->
           <div class="absolute -inset-4 bg-gradient-to-r from-brand-gold/20 to-brand-cyan/20 rounded-3xl blur-2xl opacity-60"></div>
 
-          <!-- Main Portrait Card with Spotlight effect -->
           <div class="relative w-full max-w-sm sm:max-w-md rounded-2xl overflow-hidden glass-panel spotlight-card border border-white/15 p-2.5 shadow-2xl group">
-            
-            <!-- Viewfinder Overlay Elements -->
             <div class="relative rounded-xl overflow-hidden bg-brand-dark aspect-[3/4]">
               <img 
                 src="img/hero-portrait.png" 
@@ -492,10 +556,8 @@
                 class="w-full h-full object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
               />
 
-              <!-- Gradient Vignette -->
               <div class="absolute inset-0 bg-gradient-to-t from-brand-darker via-transparent to-black/30"></div>
 
-              <!-- Camera HUD Overlay -->
               <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-xs font-mono text-white/90">
                 <div class="flex items-center gap-2 bg-black/60 px-2.5 py-1 rounded backdrop-blur-md border border-white/10">
                   <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-rec-blink"></span>
@@ -507,14 +569,12 @@
                 </div>
               </div>
 
-              <!-- Center Crosshairs -->
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
                 <div class="w-12 h-12 border border-white/50 rounded-full flex items-center justify-center">
                   <div class="w-2 h-2 bg-brand-gold rounded-full"></div>
                 </div>
               </div>
 
-              <!-- Bottom HUD -->
               <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono text-white/90">
                 <div class="bg-black/60 px-2.5 py-1.5 rounded backdrop-blur-md border border-white/10 space-x-2 text-[11px]">
                   <span>ISO 800</span>
@@ -529,7 +589,6 @@
               </div>
             </div>
 
-            <!-- Profile Summary Tag below image -->
             <div class="p-4 flex items-center justify-between">
               <div>
                 <h3 class="font-syne font-bold text-lg text-white">Shahinsha Kabeer</h3>
@@ -542,7 +601,6 @@
             </div>
 
           </div>
-
         </div>
 
       </div>
@@ -553,7 +611,6 @@
   <section id="works" class="py-24 relative select-none">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold mb-3">
@@ -568,7 +625,6 @@
           </p>
         </div>
 
-        <!-- Filter Tabs -->
         <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start md:self-auto">
           <button onclick="filterWorks('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-gold transition target-interactive" data-filter="all" data-target-label="Filter">All Projects</button>
           <button onclick="filterWorks('cinematic')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition target-interactive" data-filter="cinematic" data-target-label="Filter">Cinematic</button>
@@ -577,14 +633,12 @@
         </div>
       </div>
 
-      <!-- VIDEO GRID WITH SPOTLIGHT & TARGET CURSOR -->
+      <!-- VIDEO GRID -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="videoGrid">
         
-        <!-- PROJECT 1: OOTY DAIRIES (Landscape 16:9 Showcase) -->
+        <!-- PROJECT 1: OOTY DAIRIES -->
         <div class="project-item lg:col-span-2 group" data-category="cinematic">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
-            
-            <!-- Video Container (Target Element) -->
             <div 
               class="target-element relative w-full aspect-video rounded-2xl overflow-hidden bg-black cursor-pointer" 
               onclick="openVideoModal('video/Video-66535.mp4', 'Ooty Diaries', 'Cinematic Travel Film')"
@@ -602,7 +656,6 @@
 
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none"></div>
 
-              <!-- Top Badges -->
               <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
                 <span class="px-3 py-1 rounded-full bg-brand-gold text-black font-mono font-bold text-xs uppercase tracking-wider">
                   Featured Film
@@ -612,14 +665,12 @@
                 </span>
               </div>
 
-              <!-- Center Play Icon Glow -->
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-black group-hover:border-transparent transition-all duration-300 shadow-2xl">
                   <i data-lucide="play" class="w-7 h-7 fill-current ml-1"></i>
                 </div>
               </div>
 
-              <!-- Bottom Preview Prompt -->
               <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none text-xs font-mono text-gray-300">
                 <span class="flex items-center gap-1.5">
                   <i data-lucide="film" class="w-4 h-4 text-brand-gold"></i> Travel Documentary
@@ -628,7 +679,6 @@
               </div>
             </div>
 
-            <!-- Card Metadata -->
             <div class="p-4 space-y-3">
               <div class="flex items-start justify-between">
                 <div>
@@ -650,14 +700,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- PROJECT 2: NIGHT RIDE CHRONICLES (9:16 Vertical Reel) -->
+        <!-- PROJECT 2: NIGHT RIDE CHRONICLES -->
         <div class="project-item group" data-category="reels">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
-            
             <div 
               class="target-element relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" 
               onclick="openVideoModal('video/Video-84173.mp4', 'Night Ride Chronicles', 'High-Energy Lifestyle Reel')"
@@ -675,7 +723,6 @@
 
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none"></div>
 
-              <!-- Badges -->
               <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
                 <span class="px-3 py-1 rounded-full bg-cyan-500 text-black font-mono font-bold text-xs uppercase tracking-wider">
                   Viral Reel
@@ -685,7 +732,6 @@
                 </span>
               </div>
 
-              <!-- Play Icon -->
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-brand-cyan group-hover:text-black group-hover:border-transparent transition-all duration-300 shadow-2xl">
                   <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
@@ -698,7 +744,6 @@
               </div>
             </div>
 
-            <!-- Card Info -->
             <div class="p-4 space-y-2">
               <h3 class="text-xl font-bold font-syne text-white group-hover:text-brand-cyan transition">
                 NIGHT RIDE VIBES
@@ -711,14 +756,12 @@
                 <span class="text-brand-gold">0:52 Duration</span>
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- PROJECT 3: CHAOS IN KAELIXO (Atmospheric Neo-Noir) -->
+        <!-- PROJECT 3: CHAOS IN KAELIXO -->
         <div class="project-item group" data-category="color">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
-            
             <div 
               class="target-element relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" 
               onclick="openVideoModal('video/Video-84366.mp4', 'Chaos in Kaelixo', 'Atmospheric & Color Story')"
@@ -736,7 +779,6 @@
 
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none"></div>
 
-              <!-- Badges -->
               <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
                 <span class="px-3 py-1 rounded-full bg-red-500 text-white font-mono font-bold text-xs uppercase tracking-wider">
                   Color Narrative
@@ -746,7 +788,6 @@
                 </span>
               </div>
 
-              <!-- Play Button -->
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-red-500 group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-2xl">
                   <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
@@ -759,7 +800,6 @@
               </div>
             </div>
 
-            <!-- Card Info -->
             <div class="p-4 space-y-2">
               <h3 class="text-xl font-bold font-syne text-white group-hover:text-red-400 transition">
                 CHAOS IN KAELIXO
@@ -772,16 +812,13 @@
                 <span class="text-brand-gold">0:32 Duration</span>
               </div>
             </div>
-
           </div>
         </div>
 
         <!-- PROJECT 4: DIRECTOR SHOWREEL HIGHLIGHTS -->
         <div class="project-item lg:col-span-2 group" data-category="cinematic">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
-            
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full items-center p-4">
-              <!-- Outdoor Portrait Highlight (Target Element) -->
               <div class="target-element relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-dark cursor-pointer" data-target-label="On Set [Shoot]">
                 <img 
                   src="img/cinematic-shot.jpg" 
@@ -794,7 +831,6 @@
                 </div>
               </div>
 
-              <!-- Text & Reel Launcher -->
               <div class="space-y-4">
                 <span class="px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold font-mono text-xs border border-brand-gold/30">
                   FULL PRODUCTION CAPABILITY
@@ -815,7 +851,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -825,198 +860,94 @@
   </section>
 
   <!-- ======================================================== -->
-  <!-- PHOTOGRAPHY SHOWCASE (REACT BITS 3D GLARE HOVER GALLERY) -->
+  <!-- REACT BITS "DOME GALLERY" & PHOTOGRAPHY SHOWCASE -->
   <!-- ======================================================== -->
-  <section id="photography" class="py-24 relative bg-brand-dark/40 border-t border-b border-brand-border">
+  <section id="photography" class="py-24 relative bg-brand-dark/40 border-t border-b border-brand-border overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
         <div>
-          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-cyan mb-3">
-            <i data-lucide="aperture" class="w-4 h-4 text-brand-cyan"></i>
-            <span>STILL PHOTOGRAPHY & COMPOSITIONS</span>
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold mb-3">
+            <i data-lucide="globe" class="w-4 h-4 text-brand-gold"></i>
+            <span>REACT BITS DOME GALLERY • 18 CAPTURES</span>
           </div>
           <h2 class="text-3xl sm:text-5xl font-extrabold font-syne text-white">
-            CAPTURED THROUGH THE LENS.
+            IMMERSIVE 3D DOME GALLERY.
           </h2>
           <p class="text-gray-400 text-sm sm:text-base mt-2 max-w-xl">
-            Framing nature, mood, and urban geometry. Features <strong>React Bits 3D Glare Hover</strong>—move your cursor to tilt photos in 3D perspective with realistic light reflections.
+            Immersive 3D dome projecting Shahin's photographs on a hemispheric surface. <strong>Click & drag / swipe to rotate 360°</strong>, or click any photo for full lightbox view.
           </p>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start md:self-auto">
-          <button onclick="filterPhotos('all')" class="photo-filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-cyan transition" data-filter="all">All Stills</button>
-          <button onclick="filterPhotos('landscape')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="landscape">Highlands & Mist</button>
-          <button onclick="filterPhotos('street')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="street">Urban & Metro</button>
-          <button onclick="filterPhotos('mood')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="mood">Atmospheric</button>
+        <!-- Mode Toggle & Hint -->
+        <div class="flex items-center gap-3">
+          <div class="glass-panel p-1 rounded-2xl border border-white/10 flex items-center gap-1">
+            <button id="viewDomeBtn" onclick="switchGalleryView('dome')" class="px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-gold transition flex items-center gap-1.5">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              <span>3D Dome View</span>
+            </button>
+            <button id="viewGridBtn" onclick="switchGalleryView('grid')" class="px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition flex items-center gap-1.5">
+              <i data-lucide="grid" class="w-3.5 h-3.5"></i>
+              <span>Grid View</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- PHOTOGRAPHY GRID WITH 3D GLARE TILT -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="photoGrid">
+      <!-- 1. REACT BITS 3D DOME VIEWPORT CONTAINER -->
+      <div id="domeGalleryView" class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 shadow-2xl p-2">
         
-        <!-- Photo 1: Ghats Road (Landscape) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-10.jpg', 'Ghats Mountain Pass', 'Idukki Highlands • Morning Mist')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-10.jpg" alt="Idukki Mountain Ghats Road" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
-                f/1.8 • 1/200s
-              </div>
+        <!-- Interactive Controls Bar Top -->
+        <div class="absolute top-4 left-4 right-4 z-30 flex items-center justify-between pointer-events-none">
+          <div class="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-mono text-gray-300 flex items-center gap-2 shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+            <span>Drag or swipe in any direction to spin 3D hemisphere</span>
+          </div>
 
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Idukki Pass</span>
-                <h4 class="text-sm font-bold font-syne text-white">Ghats Forest Canopy</h4>
-              </div>
-            </div>
+          <div class="pointer-events-auto flex items-center gap-2">
+            <button id="domeAutoRotateBtn" onclick="toggleDomeAutoRotate()" class="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-mono text-brand-gold hover:border-brand-gold transition flex items-center gap-1.5" title="Toggle Auto Rotation">
+              <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+              <span id="autoRotateText">Auto-Spin: ON</span>
+            </button>
+            <button onclick="resetDomePosition()" class="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-mono text-gray-300 hover:text-white transition flex items-center gap-1" title="Reset View">
+              <i data-lucide="compass" class="w-3 h-3"></i>
+              <span>Reset</span>
+            </button>
           </div>
         </div>
 
-        <!-- Photo 2: Munnar Mist & Tea Gardens (Landscape) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-03.jpg', 'Munnar Mist Canopy', 'Western Ghats • Moody Cloud Cover')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-03.jpg" alt="Munnar Mist Canopy" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
-                Moody Raw
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Highlands</span>
-                <h4 class="text-sm font-bold font-syne text-white">Munnar Tea Canopy</h4>
-              </div>
-            </div>
+        <!-- Dome 3D Stage -->
+        <div class="dome-viewport" id="domeViewport">
+          <div class="dome-world" id="domeWorld">
+            <!-- 18 Curved Photo Cards will be dynamically injected with 3D spherical positions -->
           </div>
         </div>
 
-        <!-- Photo 3: Kochi Metro Nocturne (Street) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="street" onclick="openPhotoModal('img/photography/photo-06.jpg', 'Kochi Metro Nocturne', 'Pathadipalam Viaduct • Rain Reflection')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-06.jpg" alt="Kochi Metro Night Ride" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
-                Night ISO 1600
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-cyan uppercase tracking-wider">Urban Night</span>
-                <h4 class="text-sm font-bold font-syne text-white">Kochi Metro Viaduct</h4>
-              </div>
-            </div>
+        <!-- Bottom Status Bar -->
+        <div class="p-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-gray-400">
+          <div class="flex items-center gap-2">
+            <span class="text-brand-gold font-bold">18 CURATED STILLS:</span>
+            <span>Munnar • Idukki • Kochi Metro • Highways • Nature</span>
           </div>
+          <span class="text-[11px] text-gray-500 hidden sm:inline">React Bits Dome Projection System</span>
         </div>
 
-        <!-- Photo 4: Solitude in the Meadows (Portrait / Outdoor) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-01.jpg', 'Meadow Solitude', 'Kerala Backcountry • Cinematic Framing')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-01.jpg" alt="Kerala Meadows Couple Shoot" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
-                Story Cut
-              </div>
+      </div>
 
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Outdoor Story</span>
-                <h4 class="text-sm font-bold font-syne text-white">The White Umbrella</h4>
-              </div>
-            </div>
-          </div>
+      <!-- 2. TRADITIONAL GRID VIEW (WITH 3D GLARE TILT) -->
+      <div id="gridGalleryView" class="hidden space-y-6">
+        <!-- Filter Tabs for Grid View -->
+        <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start">
+          <button onclick="filterPhotos('all')" class="photo-filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-cyan transition" data-filter="all">All 18 Stills</button>
+          <button onclick="filterPhotos('landscape')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="landscape">Highlands & Nature</button>
+          <button onclick="filterPhotos('urban')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="urban">Urban, Metro & Street</button>
+          <button onclick="filterPhotos('mood')" class="photo-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="mood">Atmospheric & Macro</button>
         </div>
 
-        <!-- Photo 5: Twilight Valley (Landscape) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-02.jpg', 'Tea Country Twilight', 'Munnar Slopes • Golden Hour Glow')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-02.jpg" alt="Tea Country Dusk" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-amber-400">
-                Dusk Tint
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Highland Village</span>
-                <h4 class="text-sm font-bold font-syne text-white">Tea Country Twilight</h4>
-              </div>
-            </div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="photoGrid">
+          <!-- Dynamically populated or injected -->
         </div>
-
-        <!-- Photo 6: Metro Geometry (Street) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="street" onclick="openPhotoModal('img/photography/photo-08.jpg', 'Platform Geometry', 'Transit POV • Minimalist Framing')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-08.jpg" alt="Metro Platform Geometry" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-gray-300">
-                Lines & Texture
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Minimalist</span>
-                <h4 class="text-sm font-bold font-syne text-white">Platform Geometry</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Photo 7: Rain on Glass (Atmospheric) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="mood" onclick="openPhotoModal('img/photography/photo-04.jpg', 'Rain on Glass', 'Monsoon Depth of Field • Macro Bokeh')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-04.jpg" alt="Rain on Windshield" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-cyan">
-                Macro f/1.8
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-cyan uppercase tracking-wider">Atmospheric</span>
-                <h4 class="text-sm font-bold font-syne text-white">Rain on Glass</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Photo 8: Untold Stories Peak (Landscape) -->
-        <div class="photo-card-item glare-card group cursor-pointer" data-category="landscape" onclick="openPhotoModal('img/photography/photo-05.jpg', 'Untold Stories', 'Cloud Inversion over Valley • Fine Art')">
-          <div class="glare-card-inner rounded-3xl overflow-hidden glass-panel border border-white/10 p-2.5 relative">
-            <div class="glare-sheen"></div>
-            <div class="relative rounded-2xl overflow-hidden aspect-[3/4] bg-brand-dark">
-              <img src="img/photography/photo-05.jpg" alt="Untold Stories Landscape" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-              
-              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono text-brand-gold">
-                Fine Art
-              </div>
-
-              <div class="absolute bottom-3 left-3 right-3 pointer-events-none">
-                <span class="text-[10px] font-mono text-brand-gold uppercase tracking-wider">Mountain Lore</span>
-                <h4 class="text-sm font-bold font-syne text-white">Cloud Inversion</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -1061,10 +992,8 @@
         </div>
       </div>
 
-      <!-- Experience Cards Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Experience Detail (8 Cols) -->
         <div class="lg:col-span-8 space-y-6">
           <div class="glass-panel spotlight-card p-8 rounded-3xl border border-white/10 relative overflow-hidden group">
             
@@ -1082,7 +1011,6 @@
               </div>
             </div>
 
-            <!-- Experience Bullets -->
             <ul class="space-y-3.5 text-sm text-gray-300 font-sans">
               <li class="flex items-start gap-3">
                 <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
@@ -1106,7 +1034,6 @@
               </li>
             </ul>
 
-            <!-- Tech Pills -->
             <div class="flex flex-wrap gap-2 pt-6 mt-6 border-t border-brand-border/60 text-xs font-mono">
               <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">Adobe Premiere Pro</span>
               <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300">CapCut</span>
@@ -1118,10 +1045,7 @@
           </div>
         </div>
 
-        <!-- Education, Languages & Personal Profile (4 Cols) -->
         <div class="lg:col-span-4 space-y-6">
-          
-          <!-- Education & Languages Card -->
           <div class="glass-panel spotlight-card p-6 rounded-3xl border border-white/10 space-y-5">
             <h4 class="text-base font-bold font-syne text-white flex items-center gap-2">
               <i data-lucide="graduation-cap" class="w-5 h-5 text-brand-gold"></i>
@@ -1134,7 +1058,6 @@
               <div class="text-xs text-gray-400">Board of Higher Secondary Education, Kerala</div>
             </div>
 
-            <!-- Languages -->
             <div class="pt-2 border-t border-brand-border">
               <div class="text-xs font-mono text-gray-400 mb-2">LANGUAGES KNOWN</div>
               <div class="flex gap-2">
@@ -1147,7 +1070,6 @@
               </div>
             </div>
 
-            <!-- Additional Interests -->
             <div class="pt-2 border-t border-brand-border">
               <div class="text-xs font-mono text-gray-400 mb-2">ADDITIONAL INTERESTS</div>
               <div class="flex flex-wrap gap-2 text-xs font-mono text-gray-300">
@@ -1160,7 +1082,6 @@
               </div>
             </div>
 
-            <!-- Direct Contact Card -->
             <div class="pt-4 border-t border-brand-border">
               <a 
                 href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
@@ -1173,7 +1094,6 @@
             </div>
 
           </div>
-
         </div>
 
       </div>
@@ -1200,7 +1120,6 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <!-- Skill 1: Video Editing -->
         <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-brand-gold/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-brand-gold mb-6 group-hover:scale-110 transition">
             <i data-lucide="scissors" class="w-7 h-7"></i>
@@ -1216,7 +1135,6 @@
           </ul>
         </div>
 
-        <!-- Skill 2: Pacing & Transitions -->
         <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-brand-cyan/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 transition">
             <i data-lucide="zap" class="w-7 h-7"></i>
@@ -1232,7 +1150,6 @@
           </ul>
         </div>
 
-        <!-- Skill 3: Color & Audio -->
         <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-amber-400/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition">
             <i data-lucide="volume-2" class="w-7 h-7"></i>
@@ -1248,7 +1165,6 @@
           </ul>
         </div>
 
-        <!-- Skill 4: Digital & Social Content -->
         <div class="glass-panel spotlight-card p-8 rounded-3xl border border-red-400/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition">
             <i data-lucide="smartphone" class="w-7 h-7"></i>
@@ -1274,10 +1190,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <!-- Left: Image Duo -->
         <div class="lg:col-span-5 relative">
           <div class="relative max-w-md mx-auto">
-            <!-- Main Photo -->
             <div class="rounded-3xl overflow-hidden glass-panel spotlight-card border border-white/10 shadow-2xl aspect-[3/4]">
               <img 
                 src="img/about-portrait.jpg" 
@@ -1286,7 +1200,6 @@
               />
             </div>
 
-            <!-- Overlapping Float Card -->
             <div class="absolute -bottom-6 -right-6 glass-panel border border-brand-gold/40 p-5 rounded-2xl shadow-2xl max-w-xs animate-float hidden sm:block">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
@@ -1301,7 +1214,6 @@
           </div>
         </div>
 
-        <!-- Right: Bio & Story -->
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold">
             <i data-lucide="user" class="w-4 h-4"></i>
@@ -1321,7 +1233,6 @@
             </p>
           </div>
 
-          <!-- Feature Bullet Grid from CV -->
           <div class="grid grid-cols-2 gap-4 pt-4 border-t border-brand-border text-sm">
             <div class="flex items-center gap-2.5 text-gray-300">
               <i data-lucide="check-circle" class="w-4 h-4 text-brand-gold"></i>
@@ -1341,7 +1252,6 @@
             </div>
           </div>
 
-          <!-- Direct CV Download & WhatsApp Connect -->
           <div class="pt-4 flex flex-wrap items-center gap-4">
             <a 
               href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
@@ -1370,7 +1280,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
         
-        <!-- Contact Info from CV -->
         <div class="lg:col-span-5 space-y-6">
           <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold">
             <i data-lucide="send" class="w-4 h-4"></i>
@@ -1386,7 +1295,6 @@
           </p>
 
           <div class="space-y-4 pt-4">
-            <!-- WhatsApp & Phone Item -->
             <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20want%20to%20discuss%20a%20project!" target="_blank" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-brand-gold/30 hover:bg-brand-gold/10 transition group">
               <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold group-hover:scale-110 transition">
                 <i data-lucide="phone" class="w-6 h-6"></i>
@@ -1397,7 +1305,6 @@
               </div>
             </a>
 
-            <!-- Email from CV -->
             <a href="mailto:shahinshakebeer123@gmail.com" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-white/10 hover:bg-white/5 transition group">
               <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition">
                 <i data-lucide="mail" class="w-6 h-6"></i>
@@ -1408,7 +1315,6 @@
               </div>
             </a>
 
-            <!-- Location from CV -->
             <div class="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-white/10">
               <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
                 <i data-lucide="map-pin" class="w-6 h-6"></i>
@@ -1420,7 +1326,6 @@
               </div>
             </div>
 
-            <!-- Download CV Block in Contact -->
             <a 
               href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
@@ -1439,7 +1344,6 @@
 
         </div>
 
-        <!-- Interactive Project Inquiry Form -->
         <div class="lg:col-span-7">
           <div class="glass-panel spotlight-card p-8 sm:p-10 rounded-3xl border border-white/15 shadow-2xl relative">
             

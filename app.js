@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setupParticleText();
   setupSpotlightCards();
+  setupTargetCursor();
   setupVideoHoverPreviews();
   setupNavbarScroll();
   setupMobileMenu();
@@ -48,7 +49,6 @@ function setupParticleText() {
     constructor(originX, originY) {
       this.originX = originX;
       this.originY = originY;
-      // Start randomly exploded from center for initial assembly
       this.x = originX + (Math.random() - 0.5) * 200;
       this.y = originY + (Math.random() - 0.5) * 200;
       this.vx = (Math.random() - 0.5) * 4;
@@ -61,7 +61,6 @@ function setupParticleText() {
     }
 
     update(time) {
-      // Repulsion force from mouse / touch
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
       const dist = Math.hypot(dx, dy);
@@ -74,7 +73,6 @@ function setupParticleText() {
         this.vy -= Math.sin(angle) * push;
       }
 
-      // Return spring force to origin with subtle idle shimmer
       const idleFloatX = Math.cos(time * 0.002 + this.idleOffset) * 0.4;
       const idleFloatY = Math.sin(time * 0.002 + this.idleOffset) * 0.4;
 
@@ -111,14 +109,12 @@ function setupParticleText() {
 
     ctx.scale(dpr, dpr);
 
-    // Rasterize text on offscreen memory canvas
     const offscreen = document.createElement('canvas');
     offscreen.width = width;
     offscreen.height = height;
     const offCtx = offscreen.getContext('2d');
     if (!offCtx) return;
 
-    // Calculate responsive font size
     let fontSize = Math.floor(width / 9.5);
     if (fontSize > 68) fontSize = 68;
     if (fontSize < 32) fontSize = 32;
@@ -135,10 +131,9 @@ function setupParticleText() {
     offCtx.fillText('SHAHINSHA', startX, startY);
     offCtx.fillText('KABEER.', startX, startY + lineGap);
 
-    // Sample pixels from text
     const imgData = offCtx.getImageData(0, 0, width, height);
     const pixels = imgData.data;
-    const gap = width < 500 ? 4 : 4; // Sampling step
+    const gap = 4;
 
     const newParticles = [];
 
@@ -156,7 +151,6 @@ function setupParticleText() {
     particles = newParticles;
   }
 
-  // Animation Loop
   function animate(timestamp) {
     ctx.clearRect(0, 0, width, height);
 
@@ -168,7 +162,6 @@ function setupParticleText() {
     animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Mouse & Touch Listeners
   function updateCoords(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
     mouse.x = clientX - rect.left;
@@ -204,7 +197,6 @@ function setupParticleText() {
     mouse.y = -1000;
   });
 
-  // Debounced Window Resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
@@ -214,7 +206,6 @@ function setupParticleText() {
     }, 150);
   });
 
-  // Wait for fonts to be ready before sampling
   if (document.fonts) {
     document.fonts.ready.then(() => {
       resizeAndRasterize();
@@ -230,7 +221,125 @@ function setupParticleText() {
 }
 
 // ==========================================
-// 2. REACT BITS SPOTLIGHT CARD BORDER GLOW
+// 2. REACT BITS "TARGET CURSOR" (WORKS SECTION RETICLE)
+// ==========================================
+function setupTargetCursor() {
+  const worksSection = document.getElementById('works');
+  const cursorWrapper = document.getElementById('targetCursorWrapper');
+  const cursorDot = document.getElementById('targetCursorDot');
+  const cursorBox = document.getElementById('targetCursorBox');
+  const cursorLabel = document.getElementById('targetCursorLabel');
+
+  if (!worksSection || !cursorWrapper || !cursorBox || !cursorDot) return;
+
+  // State
+  let mouseX = -100;
+  let mouseY = -100;
+  let isInsideWorks = false;
+  let activeTarget = null;
+
+  // Current interpolated values
+  let currentBox = {
+    x: -100,
+    y: -100,
+    w: 36,
+    h: 36
+  };
+
+  // Target values to interpolate towards
+  let targetBox = {
+    x: -100,
+    y: -100,
+    w: 36,
+    h: 36
+  };
+
+  // Mouse movement inside Works section
+  worksSection.addEventListener('mouseenter', () => {
+    isInsideWorks = true;
+    cursorWrapper.style.opacity = '1';
+    cursorBox.style.opacity = '1';
+  });
+
+  worksSection.addEventListener('mouseleave', () => {
+    isInsideWorks = false;
+    activeTarget = null;
+    cursorWrapper.style.opacity = '0';
+    cursorBox.style.opacity = '0';
+    if (cursorLabel) cursorLabel.classList.remove('active');
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!isInsideWorks) return;
+
+    // Center reticle dot follows cursor directly
+    cursorWrapper.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+
+    // Check if hovering over a target element
+    if (activeTarget) {
+      const rect = activeTarget.getBoundingClientRect();
+      const padding = 8;
+      targetBox.x = rect.left - padding;
+      targetBox.y = rect.top - padding;
+      targetBox.w = rect.width + padding * 2;
+      targetBox.h = rect.height + padding * 2;
+    } else {
+      // Floating mode: 36x36px brackets centered around cursor
+      targetBox.w = 38;
+      targetBox.h = 38;
+      targetBox.x = mouseX - targetBox.w / 2;
+      targetBox.y = mouseY - targetBox.h / 2;
+    }
+  });
+
+  // Attach hover listeners to all targetable elements in works
+  const targets = worksSection.querySelectorAll('.target-element, .target-interactive');
+
+  targets.forEach(target => {
+    target.addEventListener('mouseenter', () => {
+      activeTarget = target;
+      const labelText = target.dataset.targetLabel || 'VIEW [●]';
+      if (cursorLabel) {
+        cursorLabel.textContent = labelText;
+        cursorLabel.classList.add('active');
+      }
+    });
+
+    target.addEventListener('mouseleave', () => {
+      if (activeTarget === target) {
+        activeTarget = null;
+        if (cursorLabel) {
+          cursorLabel.classList.remove('active');
+        }
+      }
+    });
+  });
+
+  // Smooth Lerp Animation Loop
+  function renderCursor() {
+    if (isInsideWorks) {
+      const lerp = 0.22; // Snappy smooth tracking
+      currentBox.x += (targetBox.x - currentBox.x) * lerp;
+      currentBox.y += (targetBox.y - currentBox.y) * lerp;
+      currentBox.w += (targetBox.w - currentBox.w) * lerp;
+      currentBox.h += (targetBox.h - currentBox.h) * lerp;
+
+      cursorBox.style.transform = `translate3d(${currentBox.x}px, ${currentBox.y}px, 0)`;
+      cursorBox.style.width = `${currentBox.w}px`;
+      cursorBox.style.height = `${currentBox.h}px`;
+    }
+
+    requestAnimationFrame(renderCursor);
+  }
+
+  requestAnimationFrame(renderCursor);
+}
+
+// ==========================================
+// 3. REACT BITS SPOTLIGHT CARD BORDER GLOW
 // ==========================================
 function setupSpotlightCards() {
   const cards = document.querySelectorAll('.spotlight-card');
@@ -248,7 +357,7 @@ function setupSpotlightCards() {
 }
 
 // ==========================================
-// 3. NAVBAR SCROLL EFFECT
+// 4. NAVBAR SCROLL EFFECT
 // ==========================================
 function setupNavbarScroll() {
   const navbar = document.getElementById('navbar');
@@ -262,7 +371,7 @@ function setupNavbarScroll() {
 }
 
 // ==========================================
-// 4. MOBILE MENU
+// 5. MOBILE MENU
 // ==========================================
 function setupMobileMenu() {
   const mobileBtn = document.getElementById('mobileMenuBtn');
@@ -283,7 +392,7 @@ function setupMobileMenu() {
 }
 
 // ==========================================
-// 5. VIDEO CARD HOVER PLAY / PAUSE PREVIEW
+// 6. VIDEO CARD HOVER PLAY / PAUSE PREVIEW
 // ==========================================
 function setupVideoHoverPreviews() {
   const videoCards = document.querySelectorAll('.project-item');
@@ -306,7 +415,7 @@ function setupVideoHoverPreviews() {
 }
 
 // ==========================================
-// 6. FILTER PORTFOLIO WORKS
+// 7. FILTER PORTFOLIO WORKS
 // ==========================================
 function filterWorks(category) {
   const buttons = document.querySelectorAll('.filter-btn');
@@ -337,7 +446,7 @@ function filterWorks(category) {
 }
 
 // ==========================================
-// 7. VIDEO THEATER MODAL
+// 8. VIDEO THEATER MODAL
 // ==========================================
 const modal = document.getElementById('videoModal');
 const modalPlayer = document.getElementById('modalVideoPlayer');
@@ -387,7 +496,7 @@ if (modal) {
 }
 
 // ==========================================
-// 8. CONTACT FORM VIA WHATSAPP
+// 9. CONTACT FORM VIA WHATSAPP
 // ==========================================
 function handleFormSubmit(event) {
   event.preventDefault();

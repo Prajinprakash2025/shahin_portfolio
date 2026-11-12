@@ -142,6 +142,96 @@
         height: 220px;
       }
     }
+
+    /* React Bits Target Cursor Styles */
+    #targetCursorWrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      will-change: transform;
+    }
+    #targetCursorDot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #F59E0B;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px #F59E0B, 0 0 20px rgba(245, 158, 11, 0.6);
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+    #targetCursorBox {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border: 1px solid transparent;
+      box-sizing: border-box;
+    }
+    .target-corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .target-corner-tl {
+      top: -2px;
+      left: -2px;
+      border-top: 2.5px solid #F59E0B;
+      border-left: 2.5px solid #F59E0B;
+      border-top-left-radius: 4px;
+    }
+    .target-corner-tr {
+      top: -2px;
+      right: -2px;
+      border-top: 2.5px solid #F59E0B;
+      border-right: 2.5px solid #F59E0B;
+      border-top-right-radius: 4px;
+    }
+    .target-corner-bl {
+      bottom: -2px;
+      left: -2px;
+      border-bottom: 2.5px solid #F59E0B;
+      border-left: 2.5px solid #F59E0B;
+      border-bottom-left-radius: 4px;
+    }
+    .target-corner-br {
+      bottom: -2px;
+      right: -2px;
+      border-bottom: 2.5px solid #F59E0B;
+      border-right: 2.5px solid #F59E0B;
+      border-bottom-right-radius: 4px;
+    }
+    #targetCursorLabel {
+      position: absolute;
+      top: -26px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #F59E0B;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+    #targetCursorLabel.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="bg-brand-darker text-gray-200 font-sans selection:bg-brand-gold selection:text-black min-h-screen relative overflow-x-hidden film-grain">
@@ -150,6 +240,19 @@
   <div class="fixed top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow"></div>
   <div class="fixed bottom-1/4 right-10 w-[30rem] h-[30rem] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
   <div class="fixed top-2/3 left-10 w-80 h-80 bg-red-500/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+  <!-- REACT BITS TARGET CURSOR ELEMENTS -->
+  <div id="targetCursorWrapper" class="hidden md:block">
+    <div id="targetCursorDot"></div>
+  </div>
+  
+  <div id="targetCursorBox" class="hidden md:block">
+    <div class="target-corner target-corner-tl"></div>
+    <div class="target-corner target-corner-tr"></div>
+    <div class="target-corner target-corner-bl"></div>
+    <div class="target-corner target-corner-br"></div>
+    <div id="targetCursorLabel">View [●]</div>
+  </div>
 
   <!-- NAVIGATION -->
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
@@ -182,7 +285,7 @@
           <!-- Download CV Button in Header -->
           <a 
             href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
-            download="Shahinsha_Kabeer_Video_Editor_Resume.pdf"
+            download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
             target="_blank" 
             class="flex items-center gap-2 px-4 py-2.5 rounded-full glass-panel border border-white/20 text-xs font-mono text-gray-200 hover:text-brand-gold hover:border-brand-gold transition group"
             title="Download Shahinsha Kabeer Resume (PDF)"
@@ -569,8 +672,8 @@
     </div>
   </section>
 
-  <!-- FEATURED WORK / CINEMATIC SHOWCASE -->
-  <section id="works" class="py-24 relative">
+  <!-- FEATURED WORK / CINEMATIC SHOWCASE (WITH REACT BITS TARGET CURSOR) -->
+  <section id="works" class="py-24 relative select-none">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
@@ -584,28 +687,32 @@
             EXPLORE THE WORKS.
           </h2>
           <p class="text-gray-400 text-sm sm:text-base mt-2 max-w-xl">
-            Hover over any project for live silent preview, or click to experience in full theater mode with high fidelity audio.
+            Hover over any project to activate camera autofocus target brackets, or click to experience in full theater mode with high fidelity audio.
           </p>
         </div>
 
         <!-- Filter Tabs -->
         <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start md:self-auto">
-          <button onclick="filterWorks('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-gold transition" data-filter="all">All Projects</button>
-          <button onclick="filterWorks('cinematic')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="cinematic">Cinematic</button>
-          <button onclick="filterWorks('reels')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="reels">Reels & Vertical</button>
-          <button onclick="filterWorks('color')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition" data-filter="color">Color Grading</button>
+          <button onclick="filterWorks('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-black bg-brand-gold transition target-interactive" data-filter="all" data-target-label="Filter">All Projects</button>
+          <button onclick="filterWorks('cinematic')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition target-interactive" data-filter="cinematic" data-target-label="Filter">Cinematic</button>
+          <button onclick="filterWorks('reels')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition target-interactive" data-filter="reels" data-target-label="Filter">Reels & Vertical</button>
+          <button onclick="filterWorks('color')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition target-interactive" data-filter="color" data-target-label="Filter">Color Grading</button>
         </div>
       </div>
 
-      <!-- VIDEO GRID WITH SPOTLIGHT CARDS -->
+      <!-- VIDEO GRID WITH SPOTLIGHT & TARGET CURSOR -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="videoGrid">
         
         <!-- PROJECT 1: OOTY DAIRIES (Landscape 16:9 Showcase) -->
         <div class="project-item lg:col-span-2 group" data-category="cinematic">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
-            <!-- Video Container -->
-            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-66535.mp4', 'Ooty Diaries', 'Cinematic Travel Film')">
+            <!-- Video Container (Target Element) -->
+            <div 
+              class="target-element relative w-full aspect-video rounded-2xl overflow-hidden bg-black cursor-pointer" 
+              onclick="openVideoModal('video/Video-66535.mp4', 'Ooty Diaries', 'Cinematic Travel Film')"
+              data-target-label="View Film [16:9]"
+            >
               <video 
                 src="video/Video-66535.mp4" 
                 poster="video/thumbnails/Video-66535.jpg"
@@ -674,7 +781,11 @@
         <div class="project-item group" data-category="reels">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
-            <div class="relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-84173.mp4', 'Night Ride Chronicles', 'High-Energy Lifestyle Reel')">
+            <div 
+              class="target-element relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" 
+              onclick="openVideoModal('video/Video-84173.mp4', 'Night Ride Chronicles', 'High-Energy Lifestyle Reel')"
+              data-target-label="View Reel [9:16]"
+            >
               <video 
                 src="video/Video-84173.mp4" 
                 poster="video/thumbnails/Video-84173.jpg"
@@ -731,7 +842,11 @@
         <div class="project-item group" data-category="color">
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
-            <div class="relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-84366.mp4', 'Chaos in Kaelixo', 'Atmospheric & Color Story')">
+            <div 
+              class="target-element relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" 
+              onclick="openVideoModal('video/Video-84366.mp4', 'Chaos in Kaelixo', 'Atmospheric & Color Story')"
+              data-target-label="View Noir [9:16]"
+            >
               <video 
                 src="video/Video-84366.mp4" 
                 poster="video/thumbnails/Video-84366.jpg"
@@ -789,8 +904,8 @@
           <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full items-center p-4">
-              <!-- Outdoor Portrait Highlight -->
-              <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-dark">
+              <!-- Outdoor Portrait Highlight (Target Element) -->
+              <div class="target-element relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-dark cursor-pointer" data-target-label="On Set [Shoot]">
                 <img 
                   src="img/cinematic-shot.jpg" 
                   alt="On Set with Shahinsha Kabeer" 
@@ -814,10 +929,10 @@
                   2 years of agency experience at Dsoft Solution. Skilled in translating concepts into polished visual cuts with precision sound design and color balance.
                 </p>
                 <div class="pt-2 flex flex-wrap gap-2">
-                  <button onclick="openVideoModal('video/Video-66535.mp4', 'Shahinsha Director Reel', 'Complete Cinematography & Edit Showcase')" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-brand-gold transition cursor-pointer">
+                  <button onclick="openVideoModal('video/Video-66535.mp4', 'Shahinsha Director Reel', 'Complete Cinematography & Edit Showcase')" class="target-interactive inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-brand-gold transition cursor-pointer" data-target-label="Play Reel">
                     <i data-lucide="play" class="w-4 h-4 fill-black"></i> Play Complete Reel
                   </button>
-                  <a href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-full glass-panel border border-white/20 text-white font-semibold text-xs hover:border-brand-gold hover:text-brand-gold transition">
+                  <a href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" target="_blank" class="target-interactive inline-flex items-center gap-2 px-5 py-3 rounded-full glass-panel border border-white/20 text-white font-semibold text-xs hover:border-brand-gold hover:text-brand-gold transition" data-target-label="Resume">
                     <i data-lucide="download" class="w-4 h-4"></i> Get Resume
                   </a>
                 </div>
@@ -900,7 +1015,7 @@
         </div>
 
         <!-- Skill 4: Digital & Social Content -->
-        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-red-400/40 transition group hover:-translate-y-1">
+        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-red-400/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition">
             <i data-lucide="smartphone" class="w-7 h-7"></i>
           </div>

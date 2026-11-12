@@ -91,14 +91,56 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Custom video card hover */
-    .video-card-glow {
+    /* React Bits Spotlight Card Border Glow */
+    .spotlight-card {
+      position: relative;
+      overflow: hidden;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .video-card-glow:hover {
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(
+        500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+        rgba(245, 158, 11, 0.45),
+        rgba(6, 182, 212, 0.15) 30%,
+        transparent 60%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 20;
+    }
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+    .spotlight-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 20px 40px -15px rgba(245, 158, 11, 0.2);
-      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    /* Particle Text Canvas Container */
+    #particleTextContainer {
+      position: relative;
+      width: 100%;
+      height: 170px;
+      touch-action: none;
+    }
+    @media (min-width: 640px) {
+      #particleTextContainer {
+        height: 200px;
+      }
+    }
+    @media (min-width: 1024px) {
+      #particleTextContainer {
+        height: 220px;
+      }
     }
   </style>
 </head>
@@ -193,8 +235,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
-        <!-- Left Column: Copy & CTAs -->
-        <div class="lg:col-span-7 space-y-7 text-center lg:text-left">
+        <!-- Left Column: Copy & Interactive Particle Text -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
           
           <!-- Availability Pill & Location -->
           <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
@@ -208,14 +250,20 @@
             </div>
           </div>
 
-          <!-- Main Headline -->
-          <div class="space-y-3">
-            <h1 class="text-4xl sm:text-6xl xl:text-7xl font-extrabold font-syne tracking-tight text-white leading-[1.08]">
-              SHAHINSHA <br />
-              <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-amber-200 to-amber-500">
-                KABEER.
-              </span>
-            </h1>
+          <!-- React Bits Style Interactive Particle Text Component -->
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-brand-gold/20 text-[10px] sm:text-xs font-mono text-brand-gold">
+              <i data-lucide="sparkles" class="w-3 h-3 text-brand-gold"></i>
+              <span>React Bits Particle Text: Hover or touch text to disperse</span>
+            </div>
+
+            <!-- Canvas for Interactive Particle Text -->
+            <div id="particleTextContainer" class="select-none cursor-pointer">
+              <canvas id="particleCanvas" class="w-full h-full block"></canvas>
+              <!-- Accessible fallback for SEO -->
+              <h1 class="sr-only">SHAHINSHA KABEER - Video Editor & Videographer</h1>
+            </div>
+
             <p class="text-base sm:text-lg text-brand-cyan font-mono font-medium tracking-wide">
               VIDEO EDITOR • VIDEOGRAPHER • VISUAL STORYTELLER
             </p>
@@ -294,8 +342,8 @@
           <!-- Outer Decorative Glow -->
           <div class="absolute -inset-4 bg-gradient-to-r from-brand-gold/20 to-brand-cyan/20 rounded-3xl blur-2xl opacity-60"></div>
 
-          <!-- Main Portrait Card -->
-          <div class="relative w-full max-w-sm sm:max-w-md rounded-2xl overflow-hidden glass-panel border border-white/15 p-2.5 shadow-2xl group">
+          <!-- Main Portrait Card with Spotlight effect -->
+          <div class="relative w-full max-w-sm sm:max-w-md rounded-2xl overflow-hidden glass-panel spotlight-card border border-white/15 p-2.5 shadow-2xl group">
             
             <!-- Viewfinder Overlay Elements -->
             <div class="relative rounded-xl overflow-hidden bg-brand-dark aspect-[3/4]">
@@ -309,7 +357,6 @@
               <div class="absolute inset-0 bg-gradient-to-t from-brand-darker via-transparent to-black/30"></div>
 
               <!-- Camera HUD Overlay -->
-              <!-- Top HUD -->
               <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-xs font-mono text-white/90">
                 <div class="flex items-center gap-2 bg-black/60 px-2.5 py-1 rounded backdrop-blur-md border border-white/10">
                   <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-rec-blink"></span>
@@ -363,7 +410,7 @@
     </div>
   </section>
 
-  <!-- CAREER & EXPERIENCE SECTION (NEW - EXTRACTED FROM CV) -->
+  <!-- CAREER & EXPERIENCE SECTION -->
   <section id="experience" class="py-20 relative bg-brand-dark/30 border-t border-b border-brand-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -382,7 +429,7 @@
         </div>
 
         <!-- Download CV Action Card -->
-        <div class="glass-panel p-4 rounded-2xl border border-brand-gold/30 flex items-center gap-4 self-start md:self-auto">
+        <div class="glass-panel spotlight-card p-4 rounded-2xl border border-brand-gold/30 flex items-center gap-4 self-start md:self-auto">
           <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold">
             <i data-lucide="file-check-2" class="w-6 h-6"></i>
           </div>
@@ -407,7 +454,7 @@
         
         <!-- Experience Detail (8 Cols) -->
         <div class="lg:col-span-8 space-y-6">
-          <div class="glass-panel p-8 rounded-3xl border border-white/10 relative overflow-hidden group hover:border-brand-gold/40 transition">
+          <div class="glass-panel spotlight-card p-8 rounded-3xl border border-white/10 relative overflow-hidden group">
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-5 border-b border-brand-border">
               <div>
@@ -463,7 +510,7 @@
         <div class="lg:col-span-4 space-y-6">
           
           <!-- Education & Languages Card -->
-          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-5">
+          <div class="glass-panel spotlight-card p-6 rounded-3xl border border-white/10 space-y-5">
             <h4 class="text-base font-bold font-syne text-white flex items-center gap-2">
               <i data-lucide="graduation-cap" class="w-5 h-5 text-brand-gold"></i>
               <span>Education & Qualifications</span>
@@ -550,16 +597,15 @@
         </div>
       </div>
 
-      <!-- VIDEO GRID -->
+      <!-- VIDEO GRID WITH SPOTLIGHT CARDS -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="videoGrid">
         
         <!-- PROJECT 1: OOTY DAIRIES (Landscape 16:9 Showcase) -->
         <div class="project-item lg:col-span-2 group" data-category="cinematic">
-          <div class="video-card-glow rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
+          <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
             <!-- Video Container -->
             <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-66535.mp4', 'Ooty Diaries', 'Cinematic Travel Film')">
-              <!-- Video Preview (hover to play) -->
               <video 
                 src="video/Video-66535.mp4" 
                 poster="video/thumbnails/Video-66535.jpg"
@@ -570,7 +616,6 @@
                 class="work-video w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               ></video>
 
-              <!-- Dark Overlay Gradient -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none"></div>
 
               <!-- Top Badges -->
@@ -627,9 +672,8 @@
 
         <!-- PROJECT 2: NIGHT RIDE CHRONICLES (9:16 Vertical Reel) -->
         <div class="project-item group" data-category="reels">
-          <div class="video-card-glow rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
+          <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
-            <!-- Video Container (9:16 Aspect ratio container) -->
             <div class="relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-84173.mp4', 'Night Ride Chronicles', 'High-Energy Lifestyle Reel')">
               <video 
                 src="video/Video-84173.mp4" 
@@ -685,7 +729,7 @@
 
         <!-- PROJECT 3: CHAOS IN KAELIXO (Atmospheric Neo-Noir) -->
         <div class="project-item group" data-category="color">
-          <div class="video-card-glow rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
+          <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
             <div class="relative w-full aspect-[9/14] rounded-2xl overflow-hidden bg-black cursor-pointer" onclick="openVideoModal('video/Video-84366.mp4', 'Chaos in Kaelixo', 'Atmospheric & Color Story')">
               <video 
@@ -742,7 +786,7 @@
 
         <!-- PROJECT 4: DIRECTOR SHOWREEL HIGHLIGHTS -->
         <div class="project-item lg:col-span-2 group" data-category="cinematic">
-          <div class="video-card-glow rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
+          <div class="spotlight-card rounded-3xl overflow-hidden glass-panel border border-brand-border p-3.5 relative flex flex-col justify-between h-full">
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full items-center p-4">
               <!-- Outdoor Portrait Highlight -->
@@ -788,7 +832,7 @@
     </div>
   </section>
 
-  <!-- CORE SKILLS & SERVICES (MATCHED TO RESUME) -->
+  <!-- CORE SKILLS & SERVICES -->
   <section id="services" class="py-24 bg-brand-dark/50 relative border-t border-b border-brand-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -808,7 +852,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Skill 1: Video Editing -->
-        <div class="glass-panel p-8 rounded-3xl border border-brand-border hover:border-brand-gold/40 transition group hover:-translate-y-1">
+        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-brand-gold/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-brand-gold mb-6 group-hover:scale-110 transition">
             <i data-lucide="scissors" class="w-7 h-7"></i>
           </div>
@@ -824,7 +868,7 @@
         </div>
 
         <!-- Skill 2: Pacing & Transitions -->
-        <div class="glass-panel p-8 rounded-3xl border border-brand-border hover:border-brand-cyan/40 transition group hover:-translate-y-1">
+        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-brand-cyan/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 transition">
             <i data-lucide="zap" class="w-7 h-7"></i>
           </div>
@@ -840,7 +884,7 @@
         </div>
 
         <!-- Skill 3: Color & Audio -->
-        <div class="glass-panel p-8 rounded-3xl border border-brand-border hover:border-amber-400/40 transition group hover:-translate-y-1">
+        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-amber-400/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition">
             <i data-lucide="volume-2" class="w-7 h-7"></i>
           </div>
@@ -856,7 +900,7 @@
         </div>
 
         <!-- Skill 4: Digital & Social Content -->
-        <div class="glass-panel p-8 rounded-3xl border border-brand-border hover:border-red-400/40 transition group hover:-translate-y-1">
+        <div class="glass-panel spotlight-card p-8 rounded-3xl border border-brand-border hover:border-red-400/40 transition group hover:-translate-y-1">
           <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-6 group-hover:scale-110 transition">
             <i data-lucide="smartphone" class="w-7 h-7"></i>
           </div>
@@ -885,7 +929,7 @@
         <div class="lg:col-span-5 relative">
           <div class="relative max-w-md mx-auto">
             <!-- Main Photo -->
-            <div class="rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-2xl aspect-[3/4]">
+            <div class="rounded-3xl overflow-hidden glass-panel spotlight-card border border-white/10 shadow-2xl aspect-[3/4]">
               <img 
                 src="img/about-portrait.jpg" 
                 alt="Shahinsha Kabeer Portrait" 
@@ -994,7 +1038,7 @@
 
           <div class="space-y-4 pt-4">
             <!-- WhatsApp & Phone Item -->
-            <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20want%20to%20discuss%20a%20video%20project!" target="_blank" class="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-brand-gold/30 hover:bg-brand-gold/10 transition group">
+            <a href="https://wa.me/918547277727?text=Hi%20Shahinsha,%20I%20want%20to%20discuss%20a%20video%20project!" target="_blank" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-brand-gold/30 hover:bg-brand-gold/10 transition group">
               <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold group-hover:scale-110 transition">
                 <i data-lucide="phone" class="w-6 h-6"></i>
               </div>
@@ -1005,7 +1049,7 @@
             </a>
 
             <!-- Email from CV -->
-            <a href="mailto:shahinshakebeer123@gmail.com" class="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-white/10 hover:bg-white/5 transition group">
+            <a href="mailto:shahinshakebeer123@gmail.com" class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-white/10 hover:bg-white/5 transition group">
               <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition">
                 <i data-lucide="mail" class="w-6 h-6"></i>
               </div>
@@ -1032,7 +1076,7 @@
               href="doc/Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               download="Shahinsha_Kabeer_Video_Editor_Resume.pdf" 
               target="_blank" 
-              class="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-brand-cyan/30 hover:bg-brand-cyan/10 transition group"
+              class="flex items-center gap-4 p-4 rounded-2xl glass-panel spotlight-card border border-brand-cyan/30 hover:bg-brand-cyan/10 transition group"
             >
               <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition">
                 <i data-lucide="file-text" class="w-6 h-6"></i>
@@ -1048,7 +1092,7 @@
 
         <!-- Interactive Project Inquiry Form -->
         <div class="lg:col-span-7">
-          <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-white/15 shadow-2xl relative">
+          <div class="glass-panel spotlight-card p-8 sm:p-10 rounded-3xl border border-white/15 shadow-2xl relative">
             
             <h3 class="text-2xl font-bold font-syne text-white mb-2">Send a Quick Message</h3>
             <p class="text-xs text-gray-400 font-sans mb-6">Submitting this will open directly in WhatsApp with your message pre-formatted for Shahinsha.</p>

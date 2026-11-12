@@ -103,10 +103,10 @@ function openVideoModal(videoSrc, title, subtitle) {
 
   modalPlayer.src = videoSrc;
   modalTitle.textContent = title || 'Cinematic Film';
-  modalSubtitle.textContent = (subtitle || 'Director Cut') + ' • 4K High Definition';
+  modalSubtitle.textContent = (subtitle || 'Director Cut') + ' • High Definition';
   
-  const encodedText = encodeURIComponent(`Hi Shahin! I saw your project "${title}" on your portfolio and I would love to hire you for a similar video project.`);
-  modalWhatsAppLink.href = `https://wa.me/919999999999?text=${encodedText}`;
+  const encodedText = encodeURIComponent(`Hi Shahinsha! I saw your project "${title}" on your portfolio and I would love to discuss a video project.`);
+  modalWhatsAppLink.href = `https://wa.me/918547277727?text=${encodedText}`;
 
   modal.classList.remove('opacity-0', 'pointer-events-none');
   modal.classList.add('opacity-100');
@@ -149,9 +149,8 @@ function handleFormSubmit(event) {
   const category = document.getElementById('projectCategory').value;
   const details = document.getElementById('projectDetails').value.trim();
 
-  const message = `🎬 *New Project Inquiry for Shahin*\n\n*Name:* ${name}\n*Contact:* ${phone}\n*Project Type:* ${category}\n*Details:* ${details}\n\nSent from Portfolio Website.`;
+  const message = `🎬 *New Project Inquiry for Shahinsha Kabeer*\n\n*Name:* ${name}\n*Contact:* ${phone}\n*Project Type:* ${category}\n*Details:* ${details}\n\nSent from Portfolio Website.`;
 
-  const waUrl = `https://wa.me/919999999999?text=${encodeURIComponent(message)}`;
+  const waUrl = `https://wa.me/918547277727?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');
 }
-

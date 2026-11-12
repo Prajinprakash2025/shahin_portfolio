@@ -154,3 +154,4 @@ function handleFormSubmit(event) {
   const waUrl = `https://wa.me/919999999999?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');
 }
+

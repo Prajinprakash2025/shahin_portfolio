@@ -1383,8 +1383,14 @@
   </section>
 
   <!-- CORE SKILLS & SERVICES -->
-  <section id="services" class="py-24 bg-brand-dark/50 relative border-t border-b border-brand-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="services" class="py-24 relative border-t border-b border-brand-border overflow-hidden bg-brand-darker">
+    <!-- React Bits Faulty Terminal Interactive Background Canvas -->
+    <div id="faultyTerminalContainer" class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+      <canvas id="faultyTerminalCanvas" class="absolute inset-0 w-full h-full block opacity-80" aria-hidden="true"></canvas>
+      <div class="absolute inset-0 bg-gradient-to-b from-brand-darker/80 via-transparent to-brand-darker/90 pointer-events-none"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
         <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-brand-gold">
@@ -1839,6 +1845,7 @@
   </div>
 
   <!-- APPLICATION SCRIPTS -->
+  <script src="faulty-terminal.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
